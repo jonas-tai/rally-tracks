@@ -68,43 +68,43 @@
             "operation": "randomized-nested-queries",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "randomized-term-queries",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "randomized-sorted-term-queries",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "match-all",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "nested-date-histo",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "randomized-nested-queries-with-inner-hits_default",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           },
           {
             "operation": "randomized-nested-queries-with-inner-hits_default_big_size",
             "schedule": "poisson",
             "clients": 1,
-            "target-throughput": 5,
+            "target-throughput": 5
           }
         ]
     }

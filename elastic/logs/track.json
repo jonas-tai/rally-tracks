@@ -118,7 +118,7 @@
   "description": "Track for simulating logging workloads",
   "parameters": {
     "raw-data-volume-per-day": "{{ raw_data_volume_per_day | default('0.1GB') }}",
-    "random-seed": {{ random_seed | default(13) | int }},
+    "random-seed": {{ random_seed | default(-1) | int }},
     "generator-batch-size": 10000,
     "sample-size": 10000,
     "max-generated-corpus-size": "{{ max_generated_corpus_size | default('2GB') }}",

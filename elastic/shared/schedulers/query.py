@@ -63,7 +63,7 @@ class WorkflowScheduler:
                 self.parameter_source.random_seed,
                 self.parameter_source.task_offset,
             )
-            self._random_generator = random.Random(self.parameter_source.random_seed)
+            self._random_generator = random.Random(self.parameter_source.random_seed if self.parameter_source.random_seed != -1 else random.randint(0, 1000))
             self.first = False
             # we offset the initial task execution
             current = current + ((self.parameter_source.task_offset / self.parameter_source.number_of_tasks) * self.workflow_rate)
