@@ -61,7 +61,7 @@
     {
       "name": "parallel-queries",
       "parallel": {
-        "time-period": 3600,
+        "time-period": 1200,
         "warmup-time-period": 60,
         "tasks":[
           {
