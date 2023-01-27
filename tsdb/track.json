@@ -29,13 +29,23 @@
     {
       "name": "tsdb",
       "base-url": "https://rally-tracks.elastic.co/tsdb",
-      "documents": [
-        {
-          "source-file": "documents.json.bz2",
-          "document-count": 116633698,
-          "uncompressed-bytes": 132046338827
-        }
-      ]
+      {%- if corpus is defined and corpus == "split16" %}
+        "documents": [
+          {
+            "source-file": "documents-split16.json.bz2",
+            "document-count": 116633698,
+            "uncompressed-bytes": 132046338827
+          }
+        ]
+      {%- else %}
+        "documents": [
+          {
+            "source-file": "documents.json.bz2",
+            "document-count": 116633698,
+            "uncompressed-bytes": 138721940450
+          }
+        ]
+      {%- endif %}
     }
   ],
   "operations": [
