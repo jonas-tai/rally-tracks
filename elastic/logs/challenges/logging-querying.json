@@ -6,7 +6,6 @@
     "generate-data": {{ true | tojson if bulk_start_date and bulk_end_date else false | tojson }}
   },
   "schedule": [
-    {% include "tasks/index-setup.json" %},
     {% if bulk_start_date and bulk_end_date %}
       {
         "name": "bulk-index",
@@ -48,7 +47,7 @@
               },
               "think-time-interval": {{ p_user_think_time }},
               "workflow-interval": {{ p_user_workflow_time }},
-              "clients": 1,
+              "clients": 25,
               "schedule": "workflow-scheduler"
             }{{ ", " if not loop.last else "" }}
           {% endfor %}
