@@ -11,6 +11,7 @@
 {% set p_initial_frozen_indices_count = (initial_frozen_indices_count | default(0)) %}
 {% set p_bulk_size = bulk_size | default(1000) %}
 {% set p_user_think_time = (think_time_interval | default(4)) %}
+{% set p_query_clients = (query_clients | default(1)) %}
 {% set p_workflow_time_interval = (workflow_time_interval | default(30)) %}
 {% set p_user_workflow_time = p_workflow_time_interval * p_num_query_workflows %}
 {% set p_query_warmup_time_period = (query_warmup_time_period | default(120)) %}
