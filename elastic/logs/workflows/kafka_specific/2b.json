@@ -24,7 +24,7 @@
               },
               "body": {
                 "version": true,
-                "size": 500,
+                "size": 0,
                 "sort": [
                   {
                     "@timestamp": {
@@ -163,7 +163,7 @@
               },
               "body": {
                 "version": true,
-                "size": 500,
+                "size": 0,
                 "sort": [
                   {
                     "@timestamp": {
