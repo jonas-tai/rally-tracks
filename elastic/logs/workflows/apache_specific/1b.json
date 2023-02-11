@@ -83,7 +83,7 @@
               ],
               "require_field_match": false
             },
-            "size": 500,
+            "size": 0,
             "sort": [
               {
                 "@timestamp": {
