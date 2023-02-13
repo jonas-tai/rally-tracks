@@ -136,7 +136,7 @@
                     "range": {
                       "@timestamp": {
                         "format": "strict_date_optional_time",
-                        "gte": "2022-04-14T09:10:05.477Z",
+                        "gte": "2022-03-14T09:10:05.477Z",
                         "lte": "2022-04-14T21:10:05.477Z"
                       }
                     }
