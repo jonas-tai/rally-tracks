@@ -50,9 +50,8 @@ if __name__ == '__main__':
                                     lte = parser.parse(ts['@timestamp']['lte'])
                                     gte = parser.parse(ts['@timestamp']['gte'])
 
-                                    new_value = ((lte - gte) * multiplier + gte).isoformat()
-                                    new_value = new_value.replace("+00:00", "")
-                                    new_value = new_value[:-3] + "Z"
+                                    new_value = ((lte - gte) * multiplier + gte).isoformat(timespec="milliseconds")
+                                    new_value = new_value.replace("+00:00", "Z")
 
                                     ts['@timestamp']['lte'] = new_value
                             fw.write(json.dumps(requests, indent=2))
