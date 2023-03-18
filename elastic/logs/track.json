@@ -69,8 +69,7 @@
     },
     "mysql": {
       "corpora": {
-        "mysql-slowlog-logs": 0.025,
-        "mysql-error-logs": 0.01
+        "mysql-error-logs": 0.035
       }
     },
     "postgresql": {
@@ -157,9 +156,6 @@
       "name": "logs-k8-application.log-default"
     },
     {
-      "name": "logs-mysql.slowlog-default"
-    },
-    {
       "name": "logs-mysql.error-default"
     },
     {
@@ -220,14 +216,6 @@
     {
         "name": "logs-mysql.error@custom",
         "template": "./templates/component/logs-mysql.error@custom.json"
-    },
-    {
-        "name": "logs-mysql.slowlog@settings",
-        "template": "./templates/component/logs-mysql.slowlog@settings.json"
-    },
-    {
-        "name": "logs-mysql.slowlog@custom",
-        "template": "./templates/component/logs-mysql.slowlog@custom.json"
     },
     {
         "name": "logs-nginx.access@settings",
@@ -318,12 +306,6 @@
         "index-pattern": "logs-k8-application.log-*",
         "delete-matching-indices": false,
         "template": "./templates/composable/logs-k8-application.log.json"
-    },
-    {
-        "name": "logs-mysql.slowlog",
-        "index-pattern": "logs-mysql.slowlog-*",
-        "delete-matching-indices": false,
-        "template": "./templates/composable/logs-mysql.slowlog.json"
     },
     {
         "name": "logs-mysql.error",
