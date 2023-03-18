@@ -2,6 +2,7 @@ import datetime
 from dateutil import parser
 import os
 import json
+import argparse
 
 
 def find_ranges(item):
@@ -23,8 +24,8 @@ def find_ranges(item):
     return keys
 
 
-if __name__ == '__main__':
-    multiplier = 30
+def main(args):
+    multiplier = args.multiplier
     outfolder = f'custom_{multiplier}'
     original_workflows_dir = 'elastic/logs/workflows'.replace('/', os.sep)
 
@@ -55,4 +56,11 @@ if __name__ == '__main__':
 
                                     ts['@timestamp']['lte'] = new_value
                             fw.write(json.dumps(requests, indent=2))
+
+if __name__ == '__main__':
+    CLI = argparse.ArgumentParser()
+    CLI.add_argument('--multiplier', type=float, default=30)
+    args = CLI.parse_args()
+    main(args)
+    
 
