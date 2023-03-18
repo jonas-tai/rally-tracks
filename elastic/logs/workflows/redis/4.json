@@ -14,7 +14,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 4.1",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -114,7 +114,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 4.2",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -213,7 +213,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 4.3",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -364,7 +364,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 4.4",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",

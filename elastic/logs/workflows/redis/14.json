@@ -14,7 +14,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.1",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -95,7 +95,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.2",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -175,7 +175,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.3",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -307,7 +307,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.4",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -386,7 +386,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.5",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-redis*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -527,7 +527,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.6",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-redis*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",

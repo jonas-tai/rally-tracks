@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 5c.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -86,7 +86,7 @@
                   "panelId": "bbe7ca99-504a-44e1-a5fa-f4dc60bd455d",
                   "seriesId": "fb3acf3b-5fa2-4d5f-9e6b-196b321afa39",
                   "intervalString": "60s",
-                  "index": "logs-*"
+                  "index": "logs-postgresql*"
                 }
               }
             },
@@ -106,7 +106,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 5c.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -180,7 +180,7 @@
                   "panelId": "bbe7ca99-504a-44e1-a5fa-f4dc60bd455d",
                   "seriesId": "fb3acf3b-5fa2-4d5f-9e6b-196b321afa39",
                   "intervalString": "60s",
-                  "index": "logs-*"
+                  "index": "logs-postgresql*"
                 }
               }
             },
@@ -200,7 +200,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 5c.3",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -274,7 +274,7 @@
                   "panelId": "bbe7ca99-504a-44e1-a5fa-f4dc60bd455d",
                   "seriesId": "fb3acf3b-5fa2-4d5f-9e6b-196b321afa39",
                   "intervalString": "60s",
-                  "index": "logs-*"
+                  "index": "logs-postgresql*"
                 }
               }
             },

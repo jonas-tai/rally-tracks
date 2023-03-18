@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -120,7 +120,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -211,7 +211,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.3",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -314,7 +314,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.4",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -417,7 +417,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.5",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -507,7 +507,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 4b.6",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-apache*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",

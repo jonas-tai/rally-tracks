@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/syslog/dashboard - 3a.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.syslog-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -97,7 +97,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/syslog/dashboard - 3a.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.syslog-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",

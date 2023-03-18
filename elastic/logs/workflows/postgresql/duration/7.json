@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/duration - 7.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -69,7 +69,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/duration - 7.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -135,7 +135,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/duration - 7.3",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-postgresql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
