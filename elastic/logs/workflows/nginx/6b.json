@@ -64,7 +64,7 @@
                     "min": 1650480929401,
                     "max": 1650481829401
                   },
-                  "fixed_interval": "10s"
+                  "fixed_interval": "120s"
                 },
                 "aggs": {
                   "61ca57f2-469d-11e7-af02-69e470af7417": {
