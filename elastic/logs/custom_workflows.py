@@ -59,7 +59,7 @@ def main(args):
 
 if __name__ == '__main__':
     CLI = argparse.ArgumentParser()
-    CLI.add_argument('--multiplier', type=float, default=30)
+    CLI.add_argument('--multiplier', type=int, default=30)
     args = CLI.parse_args()
     main(args)
     
