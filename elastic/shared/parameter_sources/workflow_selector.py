@@ -109,7 +109,7 @@ class WorkflowSelectorParamSource:
                     self._max_time_interval = time_interval
                 self.workflow_handlers[action_id] = query_handlers
         
-        self.logger.info(f"Workflows: {self.workflows}")
+        self.logger.info(f"Workflows: {[action_id for action_id, action in self.workflows]}")
 
         if len(self.workflows) == 0:
             raise exceptions.TrackConfigError(f"No actions loaded. " f"[{workflow_folder}] contains no " f"action files")
