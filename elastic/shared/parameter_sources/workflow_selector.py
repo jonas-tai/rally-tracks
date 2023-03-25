@@ -148,9 +148,10 @@ class WorkflowSelectorParamSource:
         )
 
         self._shuffle_keys = params.get('shuffle-keys', track.selected_challenge_or_default.parameters.get("shuffle-keys", False))
-        self._sd = params.get('time-sd', track.selected_challenge_or_default.parameters.get("time-sd", 0))
+        self._sd = parse_interval(params.get('time-sd', track.selected_challenge_or_default.parameters.get("time-sd", 0))).total_seconds()
 
         self.logger.info(f"Shuffle keys: {self._shuffle_keys}")
+        self.logger.info(f"sd: {self._sd}")
 
         # int, in seconds. for testing purposes
         self._min_query_duration = kwargs.get("min_query_duration", 15 * 60)
@@ -280,8 +281,12 @@ class WorkflowSelectorParamSource:
                     self.workflow,
                     action_id,
                 )
-
-            date_data = DateTimeValues(min_date=self._min_date, max_date=query_max_date, duration=duration)
+            if self._sd > 0:
+                res = abs(random.gauss(0, self._sd))
+                query_max_date += timedelta(seconds=res)
+                date_data = DateTimeValues(min_date=self._min_date, max_date=query_max_date, duration=duration)
+            else:
+                date_data = DateTimeValues(min_date=self._min_date, max_date=query_max_date, duration=duration)
             # this modifies these changes by ref - not thread safe
             query_handler.process(date_data)
         # always clone the dictionary as we dont' have guarantees of order in rally - deepcopy
@@ -304,8 +309,6 @@ class WorkflowSelectorParamSource:
                 self._min_query_duration,
                 self.max_possible_duration,
             )
-            if self._sd > 0:
-                self.max_query_duration += random.normalvariate(0, self._sd)
         self.logger.debug("Action [%s]", action)
         # pending https://github.com/elastic/rally/issues/1156 it would be nice to return statistics for the query
         # here e.g. the time range
@@ -328,3 +331,4 @@ class WorkflowSelectorParamSource:
                 d = dict(l)
 
         return d
+
