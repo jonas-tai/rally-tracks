@@ -146,6 +146,9 @@ class WorkflowSelectorParamSource:
                 track.selected_challenge_or_default.parameters.get("query-average-interval"),
             )
         )
+
+        self._shuffle_keys = params.get('shuffle_keys', False)
+
         # int, in seconds. for testing purposes
         self._min_query_duration = kwargs.get("min_query_duration", 15 * 60)
 
@@ -288,6 +291,8 @@ class WorkflowSelectorParamSource:
             self.workflow,
         )
         action = self.copy_and_modify_action(self.workflows[self.current_index][1])
+        if self._shuffle_keys:
+            action = self.randomize_keys(action)
         self.current_index = (self.current_index + 1) % len(self.workflows)
         if self.current_index == 0:
             self.max_query_duration = random_duration_for_max(
@@ -299,3 +304,21 @@ class WorkflowSelectorParamSource:
         # pending https://github.com/elastic/rally/issues/1156 it would be nice to return statistics for the query
         # here e.g. the time range
         return action
+    
+    def randomize_keys(self, d, start=False):
+        if isinstance(d, list):
+            for x in d:
+                self.randomize_keys(x, start)
+
+        if isinstance(d, dict):
+            for k,v in d.items():
+                if k == 'body':
+                    start = True
+
+                d[k] = self.randomize_keys(v, start)
+            if start:
+                l = list(d.items())
+                random.shuffle(l)
+                d = dict(l)
+
+        return d
