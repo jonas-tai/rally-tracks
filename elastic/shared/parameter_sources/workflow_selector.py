@@ -148,6 +148,8 @@ class WorkflowSelectorParamSource:
         )
 
         self._shuffle_keys = params.get('shuffle-keys', track.selected_challenge_or_default.parameters.get("shuffle-keys", False))
+        self._sd = params.get('time-sd', track.selected_challenge_or_default.parameters.get("time-sd", 0))
+
         self.logger.info(f"Shuffle keys: {self._shuffle_keys}")
 
         # int, in seconds. for testing purposes
@@ -271,6 +273,7 @@ class WorkflowSelectorParamSource:
                 if duration < self._min_query_duration:
                     duration = self._min_query_duration
                 duration = timedelta(seconds=duration)
+
                 self.logger.info(
                     "Using duration of [%s]s for workflow [%s] and action [%s]",
                     duration.total_seconds(),
@@ -293,7 +296,6 @@ class WorkflowSelectorParamSource:
         )
         action = self.copy_and_modify_action(self.workflows[self.current_index][1])
         if self._shuffle_keys:
-            self.logger.info("Shuffling keys.")
             action = self.randomize_keys(action)
         self.current_index = (self.current_index + 1) % len(self.workflows)
         if self.current_index == 0:
@@ -302,6 +304,8 @@ class WorkflowSelectorParamSource:
                 self._min_query_duration,
                 self.max_possible_duration,
             )
+            if self._sd > 0:
+                self.max_query_duration += random.normalvariate(0, self._sd)
         self.logger.debug("Action [%s]", action)
         # pending https://github.com/elastic/rally/issues/1156 it would be nice to return statistics for the query
         # here e.g. the time range
