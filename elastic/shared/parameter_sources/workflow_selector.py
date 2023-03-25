@@ -147,7 +147,8 @@ class WorkflowSelectorParamSource:
             )
         )
 
-        self._shuffle_keys = params.get('shuffle-keys', False)
+        self._shuffle_keys = params.get('shuffle-keys', track.selected_challenge_or_default.parameters.get("shuffle-keys", False))
+        self.logger.info(f"Shuffle keys: {self._shuffle_keys}")
 
         # int, in seconds. for testing purposes
         self._min_query_duration = kwargs.get("min_query_duration", 15 * 60)
