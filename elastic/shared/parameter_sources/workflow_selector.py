@@ -147,7 +147,7 @@ class WorkflowSelectorParamSource:
             )
         )
 
-        self._shuffle_keys = params.get('shuffle_keys', False)
+        self._shuffle_keys = params.get('shuffle-keys', False)
 
         # int, in seconds. for testing purposes
         self._min_query_duration = kwargs.get("min_query_duration", 15 * 60)
@@ -292,6 +292,7 @@ class WorkflowSelectorParamSource:
         )
         action = self.copy_and_modify_action(self.workflows[self.current_index][1])
         if self._shuffle_keys:
+            self.logger.info("Shuffling keys.")
             action = self.randomize_keys(action)
         self.current_index = (self.current_index + 1) % len(self.workflows)
         if self.current_index == 0:
