@@ -27,7 +27,7 @@ def find_key(item, key):
 
 def main(args):
     multiplier = args.multiplier
-    outfolder = f'custom_{multiplier}'
+    outfolder = args.outfolder if args.outfolder is not None else f'custom/{multiplier}'
     original_workflows_dir = 'elastic/logs/workflows'.replace('/', os.sep)
     durations = []
 
@@ -90,6 +90,7 @@ if __name__ == '__main__':
     CLI.add_argument('--multiplier', type=int, default=30)
     CLI.add_argument('--size_min', type=float)
     CLI.add_argument('--size_max', type=float)
+    CLI.add_argument('--outfolder', type=str)
 
     args = CLI.parse_args()
     main(args)
