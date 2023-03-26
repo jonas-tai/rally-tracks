@@ -4,7 +4,7 @@ import os
 import json
 import argparse
 import numpy as np
-
+import sys
 
 def find_key(item, key):
     keys = []
@@ -26,6 +26,9 @@ def find_key(item, key):
 
 
 def main(args):
+    if args.multiplier is not None and args.fixed_duration is not None:
+        print("Can only have one of multiplier and fixed duration")
+        sys.exit(1)
     multiplier = args.multiplier
     outfolder = args.outfolder if args.outfolder is not None else f'custom/{multiplier}'
     original_workflows_dir = 'elastic/logs/workflows'.replace('/', os.sep)
@@ -53,8 +56,10 @@ def main(args):
                                     lte = parser.parse(ts['@timestamp']['lte'])
                                     gte = parser.parse(ts['@timestamp']['gte'])
                                     
-
-                                    new_duration = (lte - gte) * multiplier
+                                    if multiplier is not None:
+                                        new_duration = (lte - gte) * multiplier
+                                    else:
+                                        new_duration = datetime.timedelta(days=args.fixed_duration)
                                     new_end = new_duration + gte
                                     new_value = new_end.isoformat(timespec="milliseconds")
                                     new_value = new_value.replace("+00:00", "Z")
@@ -83,11 +88,12 @@ def main(args):
     print(f'Min search range: {np.min(durations) / (3600 * 24)}')
     print(f'Max search range: {np.max(durations) / (3600 * 24)}')
 
-    print(f'Average search range: {np.mean(durations) / (3600 * 24)}')
+    print(f'Median search range: {np.median(durations) / (3600 * 24)}')
 
 if __name__ == '__main__':
     CLI = argparse.ArgumentParser()
-    CLI.add_argument('--multiplier', type=int, default=30)
+    CLI.add_argument('--multiplier', type=int)
+    CLI.add_argument('--fixed_duration', type=float)
     CLI.add_argument('--size_min', type=float)
     CLI.add_argument('--size_max', type=float)
     CLI.add_argument('--outfolder', type=str)
