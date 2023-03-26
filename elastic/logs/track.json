@@ -133,7 +133,7 @@
     "query-average-interval": "{{ query_average_interval }}",
     "query-min-date": "{{ query_min_date | default('2020-01-01') }}",
     "shuffle-keys": "{{ shuffle_keys | default(false) }}",
-    "time-sd": "{{ time_sd | default('0') }}",
+    "time-sd": "{{ time_sd | default('0m') }}",
     "query-max-date": {{ query_max_date | default(None) | tojson }},
     "query-max-date-start": {{ query_max_date_start |default(None) | tojson }},
     "max-total-download-per-corpus-gb": "{{ p_max_download_per_corpus_gb }}",

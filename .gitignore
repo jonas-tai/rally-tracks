@@ -107,3 +107,5 @@ target/
 
 # pytest
 .pytest_cache
+
+elastic/logs/workflows/custom*

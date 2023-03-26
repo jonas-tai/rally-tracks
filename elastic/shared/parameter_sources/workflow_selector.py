@@ -148,7 +148,7 @@ class WorkflowSelectorParamSource:
         )
 
         self._shuffle_keys = params.get('shuffle-keys', track.selected_challenge_or_default.parameters.get("shuffle-keys", False))
-        self._sd = parse_interval(params.get('time-sd', track.selected_challenge_or_default.parameters.get("time-sd", 0))).total_seconds()
+        self._sd = parse_interval(params.get('time-sd', track.selected_challenge_or_default.parameters.get("time-sd", '0m'))).total_seconds()
 
         self.logger.info(f"Shuffle keys: {self._shuffle_keys}")
         self.logger.info(f"sd: {self._sd}")
