@@ -3,6 +3,7 @@ from dateutil import parser
 import os
 import json
 import argparse
+import numpy as np
 
 
 def find_key(item, key):
@@ -28,6 +29,7 @@ def main(args):
     multiplier = args.multiplier
     outfolder = f'custom_{multiplier}'
     original_workflows_dir = 'elastic/logs/workflows'.replace('/', os.sep)
+    durations = []
 
     subdirs = list(os.walk(original_workflows_dir))
 
@@ -50,11 +52,15 @@ def main(args):
                                 if '@timestamp' in ts:
                                     lte = parser.parse(ts['@timestamp']['lte'])
                                     gte = parser.parse(ts['@timestamp']['gte'])
+                                    
 
-                                    new_value = ((lte - gte) * multiplier + gte).isoformat(timespec="milliseconds")
+                                    new_duration = (lte - gte) * multiplier
+                                    new_end = new_duration + gte
+                                    new_value = new_end.isoformat(timespec="milliseconds")
                                     new_value = new_value.replace("+00:00", "Z")
 
                                     ts['@timestamp']['lte'] = new_value
+                                    durations.append(new_duration.total_seconds())
 
                             histograms = find_key(requests, 'date_histogram')
 
@@ -66,11 +72,25 @@ def main(args):
                                             time = 180
                                             hist['fixed_interval'] = f'{time}s'
 
+                            if args.size_min is not None or args.size_max is not None:
+                                bodies = find_key(requests, 'body')
+                                for body in bodies:
+                                    if 'size' in body:
+                                            body['size'] = np.clip(body['size'], args.size_min, args.size_max)
+
                             fw.write(json.dumps(requests, indent=2))
+    
+    print(f'Min search range: {np.min(durations) / (3600 * 24)}')
+    print(f'Max search range: {np.max(durations) / (3600 * 24)}')
+
+    print(f'Average search range: {np.mean(durations) / (3600 * 24)}')
 
 if __name__ == '__main__':
     CLI = argparse.ArgumentParser()
     CLI.add_argument('--multiplier', type=int, default=30)
+    CLI.add_argument('--size_min', type=float)
+    CLI.add_argument('--size_max', type=float)
+
     args = CLI.parse_args()
     main(args)
     
