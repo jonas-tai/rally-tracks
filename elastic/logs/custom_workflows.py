@@ -73,9 +73,14 @@ def main(args):
                                 if 'fixed_interval' in hist:
                                     if hist['fixed_interval'].endswith('s'):
                                         time = hist['fixed_interval'].strip('s')
-                                        if float(time) < 120:
-                                            time = 180
+                                        if float(time) < 300:
+                                            time = 300
                                             hist['fixed_interval'] = f'{time}s'
+                                    elif hist['fixed_interval'].endswith('m'):
+                                        time = hist['fixed_interval'].strip('m')
+                                        if float(time) < 5:
+                                            time = 5
+                                            hist['fixed_interval'] = f'{time}m'
 
                             if args.size_min is not None or args.size_max is not None:
                                 bodies = find_key(requests, 'body')
