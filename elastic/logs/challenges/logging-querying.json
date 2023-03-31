@@ -47,7 +47,7 @@
               },
               "think-time-interval": {{ p_user_think_time }},
               "workflow-interval": {{ p_user_workflow_time }},
-              "clients": {{ p_query_clients }},
+              "clients": {{ p_query_clients_list[loop.index0] if  p_query_clients_list|count == p_query_workflows|count else p_query_clients}},
               "schedule": "workflow-scheduler"
             }{{ ", " if not loop.last else "" }}
           {% endfor %}
