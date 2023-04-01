@@ -73,13 +73,13 @@ def main(args):
                                 if 'fixed_interval' in hist:
                                     if hist['fixed_interval'].endswith('s'):
                                         time = hist['fixed_interval'].strip('s')
-                                        if float(time) < 300:
-                                            time = 300
+                                        if float(time) < args.min_hist_time:
+                                            time = args.min_hist_time
                                             hist['fixed_interval'] = f'{time}s'
                                     elif hist['fixed_interval'].endswith('m'):
                                         time = hist['fixed_interval'].strip('m')
-                                        if float(time) < 5:
-                                            time = 5
+                                        if float(time) < args.min_hist_time / 60:
+                                            time = args.min_hist_time / 60
                                             hist['fixed_interval'] = f'{time}m'
 
                             if args.size_min is not None or args.size_max is not None:
@@ -102,6 +102,7 @@ if __name__ == '__main__':
     CLI.add_argument('--size_min', type=float)
     CLI.add_argument('--size_max', type=float)
     CLI.add_argument('--outfolder', type=str)
+    CLI.add_argument('--min_hist_time', type=int, default=300)
 
     args = CLI.parse_args()
     main(args)
