@@ -30,7 +30,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z",
+                            "lte": "2022-04-20T19:08:53.500Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -176,7 +176,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z",
+                            "lte": "2022-04-20T19:08:53.500Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -380,7 +380,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z",
+                            "lte": "2022-04-20T19:08:53.500Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -526,7 +526,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z",
+                            "lte": "2022-04-20T19:08:53.500Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -724,7 +724,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z"
+                            "lte": "2022-04-20T19:08:53.500Z"
                           }
                         }
                       }
@@ -832,7 +832,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T19:08:53.500Z",
-                            "lte": "2022-05-19T19:08:53.500Z"
+                            "lte": "2022-04-20T19:08:53.500Z"
                           }
                         }
                       }
@@ -997,7 +997,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-19T19:08:53.500Z",
-                        "lte": "2022-05-19T19:08:53.500Z"
+                        "lte": "2022-04-20T19:08:53.500Z"
                       }
                     }
                   }

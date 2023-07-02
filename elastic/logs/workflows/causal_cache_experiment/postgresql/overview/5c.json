@@ -28,7 +28,7 @@
                     "range": {
                       "@timestamp": {
                         "gte": "2022-04-20T19:54:15.767Z",
-                        "lte": "2022-04-22T01:54:15.767Z",
+                        "lte": "2022-04-21T19:54:15.767Z",
                         "format": "strict_date_optional_time"
                       }
                     }
@@ -122,7 +122,7 @@
                     "range": {
                       "@timestamp": {
                         "gte": "2022-04-20T19:54:15.767Z",
-                        "lte": "2022-04-22T01:54:15.767Z",
+                        "lte": "2022-04-21T19:54:15.767Z",
                         "format": "strict_date_optional_time"
                       }
                     }
@@ -216,7 +216,7 @@
                     "range": {
                       "@timestamp": {
                         "gte": "2022-04-20T19:54:15.767Z",
-                        "lte": "2022-04-22T01:54:15.767Z",
+                        "lte": "2022-04-21T19:54:15.767Z",
                         "format": "strict_date_optional_time"
                       }
                     }

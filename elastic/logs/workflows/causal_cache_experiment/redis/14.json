@@ -72,7 +72,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T23:44:29.942Z",
-                            "lte": "2022-05-19T23:44:29.942Z"
+                            "lte": "2022-04-20T23:44:29.942Z"
                           }
                         }
                       }
@@ -152,7 +152,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T23:44:29.942Z",
-                            "lte": "2022-05-19T23:44:29.942Z"
+                            "lte": "2022-04-20T23:44:29.942Z"
                           }
                         }
                       }
@@ -272,7 +272,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T23:44:29.942Z",
-                            "lte": "2022-05-19T23:44:29.942Z"
+                            "lte": "2022-04-20T23:44:29.942Z"
                           }
                         }
                       }
@@ -363,7 +363,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T23:44:29.942Z",
-                            "lte": "2022-05-19T23:44:29.942Z"
+                            "lte": "2022-04-20T23:44:29.942Z"
                           }
                         }
                       }
@@ -490,7 +490,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T23:44:29.942Z",
-                            "lte": "2022-05-19T23:44:29.942Z"
+                            "lte": "2022-04-20T23:44:29.942Z"
                           }
                         }
                       }
@@ -581,7 +581,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-19T23:44:29.942Z",
-                        "lte": "2022-05-19T23:44:29.942Z"
+                        "lte": "2022-04-20T23:44:29.942Z"
                       }
                     }
                   }

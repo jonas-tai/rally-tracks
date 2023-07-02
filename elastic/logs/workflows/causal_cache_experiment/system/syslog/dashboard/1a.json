@@ -127,7 +127,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-21T00:25:41.367Z",
-                        "lte": "2022-04-21T07:55:41.367Z"
+                        "lte": "2022-04-22T00:25:41.367Z"
                       }
                     }
                   }
