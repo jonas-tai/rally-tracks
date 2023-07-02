@@ -86,7 +86,7 @@ def main(args):
                                 bodies = find_key(requests, 'body')
                                 for body in bodies:
                                     if 'size' in body:
-                                            body['size'] = np.clip(body['size'], args.size_min, args.size_max)
+                                            body['size'] = int(np.clip(body['size'], args.size_min, args.size_max))
 
                             fw.write(json.dumps(requests, indent=2))
     
