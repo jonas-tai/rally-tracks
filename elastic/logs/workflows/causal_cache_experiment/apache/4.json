@@ -55,7 +55,7 @@
                 }
               }
             },
-            "size": 1000,
+            "size": 10000,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -82,7 +82,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-14T20:53:58.314Z",
-                        "lte": "2022-04-30T20:53:58.314Z"
+                        "lte": "2022-05-15T20:53:58.314Z"
                       }
                     }
                   }
