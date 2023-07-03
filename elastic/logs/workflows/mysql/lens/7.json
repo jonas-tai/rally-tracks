@@ -10,7 +10,7 @@
     {
       "name": "Elasticsearch: POST /logs-*/_async_search- mysql/lens - 7.1",
       "operation-type": "search",
-      "index": "logs-*",
+      "index": "logs-mysql*",
       "request-params": {
         "batched_reduce_size": "64",
         "ignore_unavailable": "true",

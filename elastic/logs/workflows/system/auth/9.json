@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -137,7 +137,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -217,7 +217,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.3",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -298,7 +298,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.4",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -379,7 +379,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.5",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -460,7 +460,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 9.6",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-system.auth-*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",

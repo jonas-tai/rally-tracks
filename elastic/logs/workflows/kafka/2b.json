@@ -14,7 +14,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 2b.1",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-kafka*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -153,7 +153,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 2b.2",
               "operation-type": "search",
-              "index": "logs-*",
+              "index": "logs-kafka*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",

@@ -12,7 +12,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 8.1",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-mysql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -98,7 +98,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 8.2",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-mysql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -160,7 +160,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 8.3",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-mysql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -244,7 +244,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 8.4",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-mysql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -307,7 +307,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 8.5",
           "operation-type": "search",
-          "index": "logs-*",
+          "index": "logs-mysql*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
