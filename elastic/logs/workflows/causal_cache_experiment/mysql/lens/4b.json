@@ -3,11 +3,6 @@
   "name": "POST /internal/bsearch",
   "requests": [
     {
-      "name": "sleep",
-      "operation-type": "sleep",
-      "duration": 0.301325
-    },
-    {
       "name": "Elasticsearch: POST /logs-*/_async_search - mysql/lens - 4b.1",
       "operation-type": "search",
       "index": "logs-mysql*",

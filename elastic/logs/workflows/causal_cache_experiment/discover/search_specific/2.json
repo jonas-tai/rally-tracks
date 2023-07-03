@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31294099999999997
-        },
-        {
           "name": "Elasticsearch: POST /logs-nginx*/_async_search - discover/search - 2.1",
           "operation-type": "search",
           "index": "logs-nginx*",
@@ -138,11 +133,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31335199999999996
-        },
         {
           "name": "Elasticsearch: POST /logs-nginx*/_async_search - discover/search - 2.2",
           "operation-type": "search",

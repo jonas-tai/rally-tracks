@@ -3,11 +3,6 @@
   "name": "POST /internal/bsearch",
   "requests": [
     {
-      "name": "sleep",
-      "operation-type": "sleep",
-      "duration": 0.311889
-    },
-    {
       "name": "Elasticsearch: POST /logs-*/_async_search - redis - 2a.1",
       "operation-type": "search",
       "index": "logs-redis*",

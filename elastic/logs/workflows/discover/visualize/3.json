@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.301651
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - discover/visualize - 3.1",
           "operation-type": "search",
           "index": "logs-k8-application*",
@@ -108,11 +103,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.302104
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - discover/visualize - 3.2",
           "operation-type": "search",

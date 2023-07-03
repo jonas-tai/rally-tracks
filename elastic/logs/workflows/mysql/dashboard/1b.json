@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31745999999999996
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/dashboard - 1b.1",
           "operation-type": "search",
           "index": "logs-mysql*",
@@ -91,11 +86,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.317835
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/dashboard - 1b.2",
           "operation-type": "search",
           "index": "logs-mysql*",
@@ -152,11 +142,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.318108
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/dashboard - 1b.3",
           "operation-type": "search",
@@ -215,11 +200,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.318372
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/dashboard - 1b.4",
           "operation-type": "search",
           "index": "logs-mysql*",
@@ -277,11 +257,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.318629
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - mysql/dashboard - 1b.5",
           "operation-type": "search",

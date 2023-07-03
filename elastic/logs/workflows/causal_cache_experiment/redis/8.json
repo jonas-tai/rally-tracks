@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.308865
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - redis - 8.1",
           "operation-type": "search",
           "index": "logs-redis*",
@@ -70,11 +65,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.309531
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - redis - 8.2",
           "operation-type": "search",

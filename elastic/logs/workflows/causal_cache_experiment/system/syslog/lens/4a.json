@@ -3,11 +3,6 @@
   "name": "POST /api/lens/existing_fields/logs-*",
   "requests": [
     {
-      "name": "sleep",
-      "operation-type": "sleep",
-      "duration": 0.848284
-    },
-    {
       "name": "Elasticsearch: POST /logs-*/_search - syslog/lens - 4a.1",
       "operation-type": "search",
       "index": null,

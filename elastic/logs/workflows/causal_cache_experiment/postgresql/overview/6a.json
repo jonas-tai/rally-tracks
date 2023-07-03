@@ -3,11 +3,6 @@
   "name": "POST /api/metrics/vis/data",
   "requests": [
     {
-      "name": "sleep",
-      "operation-type": "sleep",
-      "duration": 1.0049489999999999
-    },
-    {
       "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 6a.1",
       "operation-type": "search",
       "index": "logs-postgresql*",

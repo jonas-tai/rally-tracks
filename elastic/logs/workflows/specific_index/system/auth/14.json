@@ -3,11 +3,6 @@
   "name": "POST /internal/bsearch",
   "requests": [
     {
-      "name": "sleep",
-      "operation-type": "sleep",
-      "duration": 0.312278
-    },
-    {
       "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 14.1",
       "operation-type": "search",
       "index": "logs-system.auth-*",

@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.318141
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.1",
           "operation-type": "search",
           "index": "logs-apache*",
@@ -53,11 +48,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.308351
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.2",
           "operation-type": "search",
@@ -195,11 +185,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.303391
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.3",
               "operation-type": "search",
               "index": "logs-apache*",
@@ -293,11 +278,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.303721
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.4",
               "operation-type": "search",
               "index": "logs-apache*",
@@ -373,11 +353,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.303969
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.5",
               "operation-type": "search",
@@ -467,11 +442,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.304207
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.6",
               "operation-type": "search",
               "index": "logs-apache*",
@@ -560,11 +530,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.304442
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.7",
               "operation-type": "search",
               "index": "logs-apache*",
@@ -639,11 +604,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.30467500000000003
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - apache 1b.8",
               "operation-type": "search",

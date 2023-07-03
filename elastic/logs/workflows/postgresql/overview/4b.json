@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 1.488778
-            },
-            {
               "name": "Elasticsearch: POST /traces-apm*,apm-*,logs-apm*,apm-*,metrics-apm*,apm-*/_async_search - postgresql/overview - 4b.1",
               "operation-type": "search",
               "index": "traces-apm*,apm-*,logs-apm*,apm-*,metrics-apm*,apm-*",
@@ -88,11 +83,6 @@
       "stream": [
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 1.670115
-            },
             {
               "name": "Elasticsearch: POST /traces-apm*,apm-*,logs-apm*,apm-*,metrics-apm*,apm-*/_async_search - postgresql/overview - 4b.2",
               "operation-type": "search",

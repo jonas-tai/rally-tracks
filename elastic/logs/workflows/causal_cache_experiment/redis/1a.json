@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.307925
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 1a.1",
               "operation-type": "search",
               "index": "logs-redis*",
@@ -138,11 +133,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.308253
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 1a.2",
               "operation-type": "search",
@@ -278,11 +268,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.308508
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 1a.3",
               "operation-type": "search",
               "index": "logs-redis*",
@@ -358,11 +343,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.308752
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 1a.4",
               "operation-type": "search",

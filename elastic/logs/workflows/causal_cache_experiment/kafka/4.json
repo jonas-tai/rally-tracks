@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.310047
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 4.1",
               "operation-type": "search",
               "index": "logs-kafka*",
@@ -158,11 +153,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.31048200000000004
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 4.2",
               "operation-type": "search",
               "index": "logs-kafka*",
@@ -308,11 +298,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.312229
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 4.3",
               "operation-type": "search",
               "index": "logs-kafka*",
@@ -399,11 +384,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.312767
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 4.4",
               "operation-type": "search",

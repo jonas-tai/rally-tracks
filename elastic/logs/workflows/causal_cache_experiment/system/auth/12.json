@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.312672
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.1",
           "operation-type": "search",
           "index": "logs-system.auth-*",
@@ -141,11 +136,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.312993
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.2",
           "operation-type": "search",
           "index": "logs-system.auth-*",
@@ -231,11 +221,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31324
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.3",
           "operation-type": "search",
@@ -324,11 +309,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31347
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.4",
           "operation-type": "search",
           "index": "logs-system.auth-*",
@@ -416,11 +396,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.313691
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.5",
           "operation-type": "search",
           "index": "logs-system.auth-*",
@@ -507,11 +482,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.313939
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 12.6",
           "operation-type": "search",

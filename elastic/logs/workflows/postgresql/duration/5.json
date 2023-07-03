@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.31261
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/duration - 5.1",
               "operation-type": "search",
               "index": "logs-postgresql*",
@@ -159,11 +154,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.312952
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/duration - 5.2",
               "operation-type": "search",

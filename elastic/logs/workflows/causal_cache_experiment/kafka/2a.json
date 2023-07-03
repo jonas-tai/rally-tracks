@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.30478500000000003
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 2a.1",
           "operation-type": "search",
           "index": "logs-kafka*",
@@ -84,11 +79,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.305281
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 2a.2",
           "operation-type": "search",

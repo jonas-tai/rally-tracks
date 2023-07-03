@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.997973
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 6c.1",
           "operation-type": "search",
           "index": "logs-postgresql*",
@@ -103,11 +98,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 1.00963
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 6c.2",
           "operation-type": "search",
@@ -203,11 +193,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.9987659999999999
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 6c.3",
           "operation-type": "search",
           "index": "logs-postgresql*",
@@ -301,11 +286,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 1.006494
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - postgresql/overview - 6c.4",
           "operation-type": "search",

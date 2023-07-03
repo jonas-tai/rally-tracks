@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.314338
-        },
-        {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.1",
           "operation-type": "search",
           "index": "logs-apache*",
@@ -108,11 +103,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31477
-        },
-        {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.2",
           "operation-type": "search",
           "index": "logs-apache*",
@@ -193,11 +183,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31511399999999995
-        },
         {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.3",
           "operation-type": "search",
@@ -292,11 +277,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.315453
-        },
-        {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.4",
           "operation-type": "search",
           "index": "logs-apache*",
@@ -390,11 +370,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.315819
-        },
-        {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.5",
           "operation-type": "search",
           "index": "logs-apache*",
@@ -474,11 +449,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.316112
-        },
         {
           "name": "Elasticsearch: POST /logs-apache*/_async_search - apache - 3c.6",
           "operation-type": "search",

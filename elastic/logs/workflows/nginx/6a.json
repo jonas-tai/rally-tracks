@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.310499
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 6a.1",
               "operation-type": "search",
               "index": "logs-nginx*",
@@ -55,11 +50,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.310882
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 6a.2",
               "operation-type": "search",
@@ -243,11 +233,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.311169
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 6a.3",
               "operation-type": "search",

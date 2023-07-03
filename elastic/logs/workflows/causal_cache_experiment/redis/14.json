@@ -7,11 +7,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.315328
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.1",
               "operation-type": "search",
               "index": "logs-redis*",
@@ -88,11 +83,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.317017
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.2",
               "operation-type": "search",
               "index": "logs-redis*",
@@ -167,11 +157,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.317327
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.3",
               "operation-type": "search",
@@ -300,11 +285,6 @@
         {
           "stream": [
             {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.317612
-            },
-            {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.4",
               "operation-type": "search",
               "index": "logs-redis*",
@@ -378,11 +358,6 @@
         },
         {
           "stream": [
-            {
-              "name": "sleep",
-              "operation-type": "sleep",
-              "duration": 0.317897
-            },
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.5",
               "operation-type": "search",
@@ -519,11 +494,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.31475200000000003
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - redis - 14.6",
           "operation-type": "search",

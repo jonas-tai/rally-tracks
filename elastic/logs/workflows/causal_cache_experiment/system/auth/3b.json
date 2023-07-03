@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.311052
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 3b.1",
           "operation-type": "search",
           "index": "logs-system.auth-*",
@@ -89,11 +84,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.311401
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/auth - 3b.2",
           "operation-type": "search",

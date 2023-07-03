@@ -5,11 +5,6 @@
     {
       "stream": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.317092
-        },
-        {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/syslog/dashboard - 7a.1",
           "operation-type": "search",
           "index": "logs-system.syslog-*",
@@ -94,11 +89,6 @@
     },
     {
       "stream": [
-        {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0.317575
-        },
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - system/syslog/dashboard - 7a.2",
           "operation-type": "search",
