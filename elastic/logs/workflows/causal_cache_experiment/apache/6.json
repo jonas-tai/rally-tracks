@@ -1,5 +1,5 @@
 {
-  "id": "Open [Logs Apache] Access and error logs dashboard - part a",
+  "id": "Open [Logs Apache] Access and error logs dashboard - part f",
   "name": "POST /api/saved_objects/_bulk_get",
   "requests": [
     {
@@ -10,7 +10,7 @@
           "duration": 0.30461200000000005
         },
         {
-          "name": "Elasticsearch: POST /logs-*/_async_search - apache 1a.1",
+          "name": "Elasticsearch: POST /logs-*/_async_search - apache 1f.1",
           "operation-type": "search",
           "index": "logs-apache*",
           "request-params": {
