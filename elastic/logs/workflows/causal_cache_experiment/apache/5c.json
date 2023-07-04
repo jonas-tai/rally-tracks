@@ -60,7 +60,7 @@
                 }
               }
             },
-            "size": 100,
+            "size": 10,
             "script_fields": {},
             "stored_fields": [
               "*"

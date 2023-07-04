@@ -1,11 +1,11 @@
 {
-  "id": "Open [Logs Apache] Access and error logs dashboard - part c",
+  "id": "Open [Logs Apache] Access and error logs dashboard - part a",
   "name": "POST /api/saved_objects/_bulk_get",
   "requests": [
     {
       "stream": [
         {
-          "name": "Elasticsearch: POST /logs-*/_async_search - apache 1c.1",
+          "name": "Elasticsearch: POST /logs-*/_async_search - apache 1a.1",
           "operation-type": "search",
           "index": "logs-apache*",
           "request-params": {
@@ -55,7 +55,7 @@
                 }
               }
             },
-            "size": 100,
+            "size": 10,
             "script_fields": {},
             "stored_fields": [
               "*"
