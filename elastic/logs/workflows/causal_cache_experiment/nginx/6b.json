@@ -15,7 +15,7 @@
             "enable_fields_emulation": "true"
           },
           "body": {
-            "size": 100,
+            "size": 10,
             "query": {
               "bool": {
                 "must": [

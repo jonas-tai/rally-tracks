@@ -17,7 +17,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 100,
+                "size": 10,
                 "query": {
                   "bool": {
                     "must": [
@@ -118,7 +118,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 100,
+                "size": 10,
                 "query": {
                   "bool": {
                     "must": [
@@ -277,7 +277,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 100,
+                "size": 10,
                 "query": {
                   "bool": {
                     "must": [
@@ -361,7 +361,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 100,
+                "size": 10,
                 "query": {
                   "bool": {
                     "must": [
@@ -485,7 +485,7 @@
                     }
                   }
                 },
-                "size": 100,
+                "size": 10,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -549,7 +549,7 @@
                     }
                   }
                 },
-                "size": 100,
+                "size": 10,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -627,7 +627,7 @@
                 }
               }
             },
-            "size": 100,
+            "size": 10,
             "script_fields": {},
             "stored_fields": [
               "*"

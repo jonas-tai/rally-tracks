@@ -28,7 +28,7 @@
               },
               "fragment_size": 2147483647
             },
-            "size": 50,
+            "size": 250,
             "sort": [
               {
                 "@timestamp": {

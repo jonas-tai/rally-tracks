@@ -20,7 +20,7 @@
               "body": {
                 "timeout": "1000ms",
                 "terminate_after": 100000,
-                "size": 100,
+                "size": 10,
                 "aggs": {
                   "termsAgg": {
                     "terms": {
@@ -75,7 +75,7 @@
                   "fragment_size": 2147483647
                 },
                 "version": true,
-                "size": 100,
+                "size": 50,
                 "sort": [
                   {
                     "@timestamp": {
@@ -258,7 +258,7 @@
                   "fragment_size": 2147483647
                 },
                 "version": true,
-                "size": 100,
+                "size": 50,
                 "sort": [
                   {
                     "@timestamp": {
