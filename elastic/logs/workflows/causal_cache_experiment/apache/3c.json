@@ -55,7 +55,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -136,7 +136,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -229,7 +229,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -322,7 +322,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -402,7 +402,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -482,7 +482,7 @@
                 }
               }
             },
-            "size": 250,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"

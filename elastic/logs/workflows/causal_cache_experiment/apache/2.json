@@ -29,7 +29,7 @@
               ],
               "require_field_match": false
             },
-            "size": 250,
+            "size": 100,
             "sort": [
               {
                 "@timestamp": {

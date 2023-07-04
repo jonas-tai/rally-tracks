@@ -18,7 +18,7 @@
           "body": {
             "timeout": "1000ms",
             "terminate_after": 100000,
-            "size": 250,
+            "size": 100,
             "aggs": {
               "termsAgg": {
                 "terms": {
@@ -73,7 +73,7 @@
               ],
               "require_field_match": false
             },
-            "size": 250,
+            "size": 100,
             "sort": [
               {
                 "@timestamp": {
@@ -235,7 +235,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -311,7 +311,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -399,7 +399,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -487,7 +487,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -562,7 +562,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -637,7 +637,7 @@
                     }
                   }
                 },
-                "size": 250,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
