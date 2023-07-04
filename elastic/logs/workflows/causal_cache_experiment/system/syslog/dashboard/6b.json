@@ -28,7 +28,7 @@
               },
               "fragment_size": 2147483647
             },
-            "size": 500,
+            "size": 50,
             "sort": [
               {
                 "@timestamp": {
@@ -127,7 +127,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T00:41:55.534Z",
-                        "lte": "2022-04-21T00:41:55.534Z"
+                        "lte": "2022-05-20T00:41:55.534Z"
                       }
                     }
                   }

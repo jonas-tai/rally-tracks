@@ -109,7 +109,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }
@@ -184,7 +184,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }
@@ -260,7 +260,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }
@@ -336,7 +336,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }
@@ -412,7 +412,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }
@@ -487,7 +487,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:35:10.431Z",
-                        "lte": "2022-04-21T18:35:10.431Z"
+                        "lte": "2022-05-20T18:35:10.431Z"
                       }
                     }
                   }

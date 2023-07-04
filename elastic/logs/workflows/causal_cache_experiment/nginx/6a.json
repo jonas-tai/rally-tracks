@@ -20,7 +20,7 @@
               "body": {
                 "timeout": "1000ms",
                 "terminate_after": 100000,
-                "size": 10,
+                "size": 100,
                 "aggs": {
                   "termsAgg": {
                     "terms": {
@@ -218,7 +218,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-20T18:55:29.401Z",
-                            "lte": "2022-04-21T18:55:29.401Z"
+                            "lte": "2022-05-20T18:55:29.401Z"
                           }
                         }
                       }
@@ -401,7 +401,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-20T18:55:29.401Z",
-                            "lte": "2022-04-21T18:55:29.401Z"
+                            "lte": "2022-05-20T18:55:29.401Z"
                           }
                         }
                       }

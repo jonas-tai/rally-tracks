@@ -17,7 +17,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 10,
+                "size": 100,
                 "query": {
                   "bool": {
                     "must": [
@@ -25,7 +25,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z",
+                            "lte": "2022-05-19T19:09:23.173Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -221,7 +221,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 10,
+                "size": 100,
                 "query": {
                   "bool": {
                     "must": [
@@ -229,7 +229,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z",
+                            "lte": "2022-05-19T19:09:23.173Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -367,7 +367,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 10,
+                "size": 100,
                 "query": {
                   "bool": {
                     "must": [
@@ -375,7 +375,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z",
+                            "lte": "2022-05-19T19:09:23.173Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -513,7 +513,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 10,
+                "size": 100,
                 "query": {
                   "bool": {
                     "must": [
@@ -521,7 +521,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z",
+                            "lte": "2022-05-19T19:09:23.173Z",
                             "format": "strict_date_optional_time"
                           }
                         }
@@ -665,7 +665,7 @@
                     }
                   }
                 },
-                "size": 10,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -724,7 +724,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z"
+                            "lte": "2022-05-19T19:09:23.173Z"
                           }
                         }
                       }
@@ -773,7 +773,7 @@
                     }
                   }
                 },
-                "size": 10,
+                "size": 100,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -832,7 +832,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T19:09:23.173Z",
-                            "lte": "2022-04-20T19:09:23.173Z"
+                            "lte": "2022-05-19T19:09:23.173Z"
                           }
                         }
                       }
@@ -895,7 +895,7 @@
                 }
               }
             },
-            "size": 10,
+            "size": 100,
             "script_fields": {},
             "stored_fields": [
               "*"
@@ -997,7 +997,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-19T19:09:23.173Z",
-                        "lte": "2022-04-20T19:09:23.173Z"
+                        "lte": "2022-05-19T19:09:23.173Z"
                       }
                     }
                   }

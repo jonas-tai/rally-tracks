@@ -8,7 +8,7 @@
       "index": null,
       "request-params": {},
       "body": {
-        "size": 500,
+        "size": 50,
         "query": {
           "bool": {
             "filter": [
@@ -16,7 +16,7 @@
                 "range": {
                   "@timestamp": {
                     "gte": "2022-04-18T21:18:41.356Z",
-                    "lte": "2022-04-19T21:18:41.356Z"
+                    "lte": "2022-05-18T21:18:41.356Z"
                   }
                 }
               },

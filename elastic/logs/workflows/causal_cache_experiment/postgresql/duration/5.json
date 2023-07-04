@@ -19,7 +19,7 @@
               },
               "body": {
                 "version": true,
-                "size": 500,
+                "size": 50,
                 "sort": [
                   {
                     "@timestamp": {
@@ -127,7 +127,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T20:13:12.947Z",
-                            "lte": "2022-04-20T20:13:12.947Z"
+                            "lte": "2022-05-19T20:13:12.947Z"
                           }
                         }
                       }
@@ -167,7 +167,7 @@
               },
               "body": {
                 "version": true,
-                "size": 500,
+                "size": 50,
                 "sort": [
                   {
                     "@timestamp": {
@@ -273,7 +273,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-04-19T20:13:12.947Z",
-                            "lte": "2022-04-20T20:13:12.947Z"
+                            "lte": "2022-05-19T20:13:12.947Z"
                           }
                         }
                       }
