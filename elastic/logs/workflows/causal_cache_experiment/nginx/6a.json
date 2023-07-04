@@ -75,7 +75,7 @@
                   "fragment_size": 2147483647
                 },
                 "version": true,
-                "size": 500,
+                "size": 100,
                 "sort": [
                   {
                     "@timestamp": {
@@ -258,7 +258,7 @@
                   "fragment_size": 2147483647
                 },
                 "version": true,
-                "size": 500,
+                "size": 100,
                 "sort": [
                   {
                     "@timestamp": {
