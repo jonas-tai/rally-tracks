@@ -6,6 +6,12 @@ import argparse
 import numpy as np
 import sys
 
+from random import choice
+
+# TODO: make better random dates (probably with f strings for numbers)
+BEFORE_TIMES = ["2022-01-21T17:52:53.314Z","2022-02-19T12:13:28.314Z","2022-03-30T21:22:58.324Z","2022-04-20T19:28:12.314Z","2022-05-25T16:00:29.324Z","2022-06-17T21:27:58.324Z","2022-01-08T09:03:50.111Z","2022-02-01T02:42:58.324Z","2022-03-14T06:33:21.314Z","2022-04-02T01:01:22.314Z","2022-05-11T09:24:28.314Z","2022-06-09T00:11:12.314Z"]
+AFTER_TIMES = ["2022-07-16T12:22:00.314Z","2022-08-21T22:11:50.314Z","2022-09-22T19:21:08.314Z","2022-10-31T12:01:42.314Z","2022-11-21T22:12:34.314Z","2022-12-25T23:21:00.314Z","2022-07-01T02:51:08.314Z","2022-08-04T01:42:23.314Z","2022-09-12T11:49:01.314Z","2022-10-13T04:32:50.314Z","2022-11-02T11:00:11.314Z","2022-07-14T00:21:58.314Z"]
+
 def find_key(item, key):
     keys = []
 
@@ -53,19 +59,23 @@ def main(args):
                             ranges = find_key(requests, 'range')
                             for ts in ranges:
                                 if '@timestamp' in ts:
-                                    lte = parser.parse(ts['@timestamp']['lte'])
-                                    gte = parser.parse(ts['@timestamp']['gte'])
-                                    
-                                    if multiplier is not None:
-                                        new_duration = (lte - gte) * multiplier
+                                    if args.random:
+                                        ts['@timestamp']['lte'] = choice(AFTER_TIMES)
+                                        ts['@timestamp']['gte'] = choice(BEFORE_TIMES)
                                     else:
-                                        new_duration = datetime.timedelta(days=args.fixed_duration)
-                                    new_end = new_duration + gte
-                                    new_value = new_end.isoformat(timespec="milliseconds")
-                                    new_value = new_value.replace("+00:00", "Z")
+                                        lte = parser.parse(ts['@timestamp']['lte'])
+                                        gte = parser.parse(ts['@timestamp']['gte'])
+                                        
+                                        if multiplier is not None:
+                                            new_duration = (lte - gte) * multiplier
+                                        else:
+                                            new_duration = datetime.timedelta(days=args.fixed_duration)
+                                        new_end = new_duration + gte
+                                        new_value = new_end.isoformat(timespec="milliseconds")
+                                        new_value = new_value.replace("+00:00", "Z")
 
-                                    ts['@timestamp']['lte'] = new_value
-                                    durations.append(new_duration.total_seconds())
+                                        ts['@timestamp']['lte'] = new_value
+                                        durations.append(new_duration.total_seconds())
 
                             histograms = find_key(requests, 'date_histogram')
 
@@ -103,6 +113,7 @@ if __name__ == '__main__':
     CLI.add_argument('--size_max', type=float)
     CLI.add_argument('--outfolder', type=str)
     CLI.add_argument('--min_hist_time', type=int, default=300)
+    CLI.add_argument('--random', action="store_true", default=False)
 
     args = CLI.parse_args()
     main(args)
