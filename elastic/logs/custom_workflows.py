@@ -62,6 +62,11 @@ def main(args):
                                     if args.random:
                                         ts['@timestamp']['lte'] = choice(AFTER_TIMES)
                                         ts['@timestamp']['gte'] = choice(BEFORE_TIMES)
+                                        lte = parser.parse(ts['@timestamp']['lte'])
+                                        gte = parser.parse(ts['@timestamp']['gte'])
+                                        new_duration = lte - gte
+                                        durations.append(new_duration.total_seconds())
+
                                     else:
                                         lte = parser.parse(ts['@timestamp']['lte'])
                                         gte = parser.parse(ts['@timestamp']['gte'])
