@@ -18,7 +18,7 @@ def get_rand_date_in_range(begin_date, end_date):
     end = parser.parse(end_date)
     duration = (end - start).total_seconds()
     delta = datetime.timedelta(seconds=random.randint(0, duration))
-    return str(start + delta)
+    return (start + delta).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 def find_key(item, key):
     keys = []
