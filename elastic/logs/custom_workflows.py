@@ -68,8 +68,8 @@ def main(args):
                             for ts in ranges:
                                 if '@timestamp' in ts:
                                     if args.random:
-                                        ts['@timestamp']['lte'] = get_rand_date_in_range(JAN_FIRST, JUNE_END)
-                                        ts['@timestamp']['gte'] = get_rand_date_in_range(JULY_FIRST, DEC_END)
+                                        ts['@timestamp']['lte'] = get_rand_date_in_range(JULY_FIRST, DEC_END)
+                                        ts['@timestamp']['gte'] = get_rand_date_in_range(JAN_FIRST, JUNE_END)
                                         lte = parser.parse(ts['@timestamp']['lte'])
                                         gte = parser.parse(ts['@timestamp']['gte'])
                                         new_duration = lte - gte
