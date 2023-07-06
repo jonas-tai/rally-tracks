@@ -64,7 +64,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:31:09.271Z",
-                        "lte": "2022-05-20T18:31:09.271Z"
+                        "lte": "2022-04-23T18:31:09.271Z"
                       }
                     }
                   }
@@ -140,7 +140,7 @@
                       "@timestamp": {
                         "format": "strict_date_optional_time",
                         "gte": "2022-04-20T18:31:09.271Z",
-                        "lte": "2022-05-20T18:31:09.271Z"
+                        "lte": "2022-04-23T18:31:09.271Z"
                       }
                     }
                   }
