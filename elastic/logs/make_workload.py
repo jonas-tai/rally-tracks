@@ -6,6 +6,7 @@ import json
 import glob
 from pathlib import Path
 from logs.custom_workflows import find_key
+from logs.random_vars import LoadLevel, ExponRV, RequestSize, RequestType
 import copy
 import datetime
 from dateutil import parser
@@ -14,65 +15,27 @@ import uuid
 import os
 from tqdm.auto import trange, tqdm
 import glog
+import shutil
 
 ALL_WORKFLOWS = ["apache", "kafka", "nginx", "system/auth", "postgresql/overview", "discover/search",
                  "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
                  "postgresql/duration"]
 
 SLEEP_TEMPLATE = {
-  "id": "",
-  "name": "Sleep",
-  "requests": [
-    {
-      "stream": [
+    "id": "",
+    "name": "Sleep",
+    "requests": [
         {
-          "name": "sleep",
-          "operation-type": "sleep",
-          "duration": 0
-        },
-      ]
-    }
-  ]
+          "stream": [
+            {
+                "name": "sleep",
+                "operation-type": "sleep",
+                "duration": 0
+            },
+          ]
+        }
+    ]
 }
-
-
-def draw_request_size(b, loc, scale, random_state, floor=True, clip=(0, None)):
-    draw = pareto.rvs(b, loc=loc, scale=scale, random_state=random_state)
-    draw = np.clip(draw, clip[0], clip[1])
-    if floor:
-        return int(draw)
-    else:
-        return draw
-
-
-def draw_request_type(a, n, loc, random_state):
-    return zipfian.rvs(a, n, loc=loc, random_state=random_state)
-
-
-def draw_sleep_time(lda, random_state):
-    # setting to scale = 1 / lda is equivalent to rate=lambda
-    return expon.rvs(scale=1 / lda, random_state=random_state)
-
-
-def draw_request_range(lda, random_state):
-    return expon.rvs(scale=1 / lda, random_state=random_state)
-
-
-def draw_load_level(iteration, period, clients, jitter=0, clip=(0, None), random_state=None):
-    if jitter > 0:
-        # add some jitter to sine wave
-        noise = uniform.rvs(loc=-jitter, scale=2 * jitter, random_state=random_state)
-    else:
-        noise = 0
-
-    # clip it so we don't have too much load or too little (or negative)
-    scale = np.clip(
-        np.sin(iteration * 2 * np.pi / period) + noise,
-        clip[0],
-        clip[1]
-    )
-
-    return int(np.round(clients * scale))
 
 
 def import_workflows(in_folder):
@@ -90,6 +53,7 @@ def round_time(x):
     x = x.replace(second=0)
     x = x.replace(microsecond=0)
     return x
+
 
 def generate_uuid():
     # return as str instead of UUID object for json serialization
@@ -111,10 +75,15 @@ def copy_with_date_size(query, date_range, size):
             new_duration = datetime.timedelta(days=date_range)
             # add new duration to min time
             new_end = new_duration + gte
-            new_value = new_end.isoformat(timespec="milliseconds")
-            new_value = new_value.replace("+00:00", "Z")
+            new_end_fmt = new_end.isoformat(timespec="milliseconds")
+            new_end_fmt = new_end_fmt.replace("+00:00", "Z")
             # set max time to min time + new duration
-            ts['@timestamp']['lte'] = new_value
+
+            new_start_fmt = gte.isoformat(timespec="milliseconds")
+            new_start_fmt = new_start_fmt.replace("+00:00", "Z")
+
+            ts['@timestamp']['gte'] = new_start_fmt
+            ts['@timestamp']['lte'] = new_end_fmt
 
     bodies = find_key(query, 'body')
     for body in bodies:
@@ -122,34 +91,45 @@ def copy_with_date_size(query, date_range, size):
             body['size'] = int(size)
     return query
 
+
 def copy_sleep(duration):
     sleep_json = copy.deepcopy(SLEEP_TEMPLATE)
     sleep_json['id'] = generate_uuid()
     sleep_json['requests'][0]['stream'][0]['duration'] = duration
     return sleep_json
 
+
 def main(args):
     out = {i: [] for i in range(args.clients)}
+
+    if os.path.exists(args.out_folder):
+        shutil.rmtree(args.out_folder)
 
     max_duration = 0
 
     workflows = import_workflows('logs/workflows')
     # random_state = np.random.RandomState(1)
     random_state = None
-    np.random.seed(1)
+    np.random.seed(args.seed)
+
+    request_type_rv = RequestType(args.zipf, len(workflows))
+    request_size_rv = RequestSize(args.pareto, clip=(0, args.size_max))
+    load_level_rv = LoadLevel(5, args.clients, 0.15, clip=(0.05, 1))
+    between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
+    request_range_rv = ExponRV(args.request_range)
 
     for step in trange(args.num_steps, desc='Generating workload'):
-        num_clients = draw_load_level(step, 5, args.clients, jitter=0.15, clip=(0.05, 1))
+        num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
-            type_idx = draw_request_type(args.zipf, len(ALL_WORKFLOWS), loc=-1, random_state=random_state)
-            request_size = draw_request_size(args.pareto, loc=-1, scale=1, random_state=random_state, clip=(0, args.size_max))
-            request_range = draw_request_range(args.request_range, random_state=random_state)
+            type_idx = request_type_rv.draw()
+            request_size = request_size_rv.draw()
+            request_range = request_range_rv.draw()
             requests_list = [copy_with_date_size(q, request_range, request_size) for q in workflows[ALL_WORKFLOWS[type_idx]]]
-            requests_list.append(copy_sleep(draw_sleep_time(args.sleep_lambda, random_state=random_state)))
+            requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
 
             out[client] += requests_list
-    
+
         for sleeps in range(num_clients, args.clients):
             out[sleeps].append(copy_sleep(40))
 
@@ -164,15 +144,18 @@ def main(args):
         for i, query in enumerate(v):
             with open(out_folder.joinpath(f'{i:03}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
-            
+
             if query.get('name', '') == 'Sleep':
                 current_duration += query['requests'][0]['stream'][0]['duration']
             else:
                 current_duration += 4
-        
+
         max_duration = max(current_duration, max_duration)
-    
-    glog.info(f'Max duration of workload: {max_duration}')
+
+    glog.info(f'Max duration of workload: {max_duration:.2f}s ({max_duration / 60:.2f} min)')
+    glog.info(f'Workload size: {sum(f.stat().st_size for f in Path(args.out_folder).glob("**/*") if f.is_file()) / 1024**2:.2f} MB')
+    glog.info(f'Workload exported to {args.out_folder}')
+
 
 if __name__ == '__main__':
 
@@ -186,6 +169,7 @@ if __name__ == '__main__':
     cli.add_argument('--num_steps', type=int, default=50)
     cli.add_argument('--clients', type=int, default=50)
     cli.add_argument('--out_folder', type=str, default='logs/workflows/custom/out')
+    cli.add_argument('--seed', type=int, default=0)
 
     args = cli.parse_args()
     main(args)
