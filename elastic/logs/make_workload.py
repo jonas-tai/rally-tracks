@@ -108,13 +108,11 @@ def main(args):
     max_duration = 0
 
     workflows = import_workflows('logs/workflows')
-    # random_state = np.random.RandomState(1)
-    random_state = None
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
     request_size_rv = RequestSize(args.pareto, clip=(0, args.size_max))
-    load_level_rv = LoadLevel(5, args.clients, 0.15, clip=(0.05, 1))
+    load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, clip=(0.05, 1))
     between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
 
@@ -133,7 +131,7 @@ def main(args):
         for sleeps in range(num_clients, args.clients):
             out[sleeps].append(copy_sleep(40))
 
-    for k, v in tqdm(out.items(), desc='Writing'):
+    for k, v in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
         out_folder = Path(args.out_folder, f'{k:02}')
         try:
@@ -170,6 +168,8 @@ if __name__ == '__main__':
     cli.add_argument('--clients', type=int, default=50)
     cli.add_argument('--out_folder', type=str, default='logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
+    cli.add_argument('--load_period', type=int, default=5)
+    cli.add_argument('--load_jitter', type=float, default=0.15)
 
     args = cli.parse_args()
     main(args)

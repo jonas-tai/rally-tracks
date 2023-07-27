@@ -109,3 +109,4 @@ target/
 .pytest_cache
 
 elastic/logs/workflows/custom*
+**/.vscode
