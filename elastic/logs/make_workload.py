@@ -1,4 +1,3 @@
-from scipy.stats import pareto, zipfian, expon, uniform
 import numpy as np
 from argparse import ArgumentParser
 from collections import defaultdict
@@ -116,31 +115,40 @@ def main(args):
     between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
 
+    # generate workloads
     for step in trange(args.num_steps, desc='Generating workload'):
+        # draw the amount of load for this time slice
         num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
+            # draw the request types and sizes
             type_idx = request_type_rv.draw()
             request_size = request_size_rv.draw()
             request_range = request_range_rv.draw()
+            # copy the entire workflow
             requests_list = [copy_with_date_size(q, request_range, request_size) for q in workflows[ALL_WORKFLOWS[type_idx]]]
             requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
 
             out[client] += requests_list
 
+        # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.clients):
             out[sleeps].append(copy_sleep(40))
 
+    # to determine how many zeros we need to pad the filenames
+    num_digits_folders = int(np.ceil(np.log10(args.clients)))
+    num_digits_workflows = int(np.ceil(np.log10(max([len(x) for x in out.values()]))))
+
     for k, v in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
-        out_folder = Path(args.out_folder, f'{k:02}')
+        out_folder = Path(args.out_folder, f'{k:0{num_digits_folders}}')
         try:
             out_folder.mkdir(parents=True)
         except FileExistsError:
             for fname in glob.glob(str(out_folder.joinpath('*'))):
                 os.remove(fname)
         for i, query in enumerate(v):
-            with open(out_folder.joinpath(f'{i:03}.json'), 'w') as f:
+            with open(out_folder.joinpath(f'{i:0{num_digits_workflows}}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
 
             if query.get('name', '') == 'Sleep':
@@ -165,7 +173,7 @@ if __name__ == '__main__':
     cli.add_argument('--sleep_lambda', type=float, default=10)
     cli.add_argument('--request_range', type=float, default=15)
     cli.add_argument('--num_steps', type=int, default=50)
-    cli.add_argument('--clients', type=int, default=50)
+    cli.add_argument('--clients', type=int, default=120)
     cli.add_argument('--out_folder', type=str, default='logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
     cli.add_argument('--load_period', type=int, default=5)
