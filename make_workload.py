@@ -4,8 +4,8 @@ from collections import defaultdict
 import json
 import glob
 from pathlib import Path
-from logs.custom_workflows import find_key
-from logs.random_vars import LoadLevel, ExponRV, RequestSize, RequestType
+from custom_workflows import find_key
+from random_vars import LoadLevel, ExponRV, RequestSize, RequestType
 import copy
 import datetime
 from dateutil import parser
@@ -106,7 +106,7 @@ def main(args):
 
     max_duration = 0
 
-    workflows = import_workflows('logs/workflows')
+    workflows = import_workflows('elastic/logs/workflows')
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     cli.add_argument('--request_range', type=float, default=15)
     cli.add_argument('--num_steps', type=int, default=50)
     cli.add_argument('--clients', type=int, default=120)
-    cli.add_argument('--out_folder', type=str, default='logs/workflows/custom/out')
+    cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
     cli.add_argument('--load_period', type=int, default=5)
     cli.add_argument('--load_jitter', type=float, default=0.15)
