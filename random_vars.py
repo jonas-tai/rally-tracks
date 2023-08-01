@@ -1,4 +1,4 @@
-from scipy.stats import pareto, zipfian, expon, uniform, multinomial, rv_continuous
+from scipy.stats import pareto, zipfian, expon, uniform, multinomial, rv_continuous, norm
 import numpy as np
 
 
@@ -18,7 +18,7 @@ class RandomVar:
 
 class LoadLevel(RandomVar):
     def __init__(self, period, clients, jitter=0, clip=(0, 1)) -> None:
-        super().__init__(uniform(loc=-jitter, scale=2 * jitter))
+        super().__init__(norm(scale=jitter))
         self.clip = clip
         self.jitter = jitter
         self.period = period

@@ -197,7 +197,7 @@ if __name__ == '__main__':
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
     cli.add_argument('--load_period', type=int, default=10)
-    cli.add_argument('--load_jitter', type=float, default=0.15)
+    cli.add_argument('--load_jitter', type=float, default=0.25)
 
     args = cli.parse_args()
     main(args)
