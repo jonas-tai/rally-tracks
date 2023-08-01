@@ -43,7 +43,9 @@ def import_workflows(in_folder):
         globs = glob.glob(str(Path(in_folder, workflow, '*.json')))
         for file in globs:
             with open(file, 'r') as f:
-                workflows[workflow].append(json.load(f))
+                cur = json.load(f)
+                cur = fix_histogram(cur)
+                workflows[workflow].append(cur)
     return workflows
 
 
@@ -88,6 +90,24 @@ def copy_with_date_size(query, date_range, size):
     for body in bodies:
         if 'size' in body:
             body['size'] = int(size)
+    return query
+
+def fix_histogram(query):
+    histograms = find_key(query, 'date_histogram')
+    min_hist_time = 300
+
+    for hist in histograms:
+        if 'fixed_interval' in hist:
+            if hist['fixed_interval'].endswith('s'):
+                time = hist['fixed_interval'].strip('s')
+                if float(time) < min_hist_time:
+                    time = min_hist_time
+                    hist['fixed_interval'] = f'{time}s'
+            elif hist['fixed_interval'].endswith('m'):
+                time = hist['fixed_interval'].strip('m')
+                if float(time) < min_hist_time / 60:
+                    time = min_hist_time / 60
+                    hist['fixed_interval'] = f'{time}m'
     return query
 
 
@@ -168,12 +188,12 @@ if __name__ == '__main__':
     cli = ArgumentParser()
 
     cli.add_argument('--zipf', type=float, default=1.0)
-    cli.add_argument('--pareto', type=float, default=0.4)
-    cli.add_argument('--size_max', type=int, default=500)
+    cli.add_argument('--pareto', type=float, default=0.6)
+    cli.add_argument('--size_max', type=int, default=250)
     cli.add_argument('--sleep_lambda', type=float, default=10)
     cli.add_argument('--request_range', type=float, default=15)
     cli.add_argument('--num_steps', type=int, default=50)
-    cli.add_argument('--clients', type=int, default=120)
+    cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
     cli.add_argument('--load_period', type=int, default=5)
