@@ -44,7 +44,7 @@ class LoadLevel(RandomVar):
 
 class ExponRV(RandomVar):
     def __init__(self, a) -> None:
-        rv = expon(a)
+        rv = expon(scale=a)
         super().__init__(rv)
 
 

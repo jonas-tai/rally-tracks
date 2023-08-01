@@ -94,7 +94,7 @@ def copy_with_date_size(query, date_range, size):
 
 def fix_histogram(query):
     histograms = find_key(query, 'date_histogram')
-    min_hist_time = 300
+    min_hist_time = 86400
 
     for hist in histograms:
         if 'fixed_interval' in hist:
@@ -189,14 +189,14 @@ if __name__ == '__main__':
 
     cli.add_argument('--zipf', type=float, default=1.0)
     cli.add_argument('--pareto', type=float, default=0.6)
-    cli.add_argument('--size_max', type=int, default=250)
+    cli.add_argument('--size_max', type=int, default=100)
     cli.add_argument('--sleep_lambda', type=float, default=10)
-    cli.add_argument('--request_range', type=float, default=15)
+    cli.add_argument('--request_range', type=float, default=10)
     cli.add_argument('--num_steps', type=int, default=50)
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
-    cli.add_argument('--load_period', type=int, default=5)
+    cli.add_argument('--load_period', type=int, default=10)
     cli.add_argument('--load_jitter', type=float, default=0.15)
 
     args = cli.parse_args()
