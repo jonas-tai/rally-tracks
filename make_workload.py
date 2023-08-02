@@ -127,6 +127,7 @@ def main(args):
     max_duration = 0
 
     workflows = import_workflows('elastic/logs/workflows')
+    idle_time = max([len(x) for x in workflows.values()]) * 10
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
@@ -153,7 +154,7 @@ def main(args):
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.clients):
-            out[sleeps].append(copy_sleep(40))
+            out[sleeps].append(copy_sleep(idle_time))
 
     # to determine how many zeros we need to pad the filenames
     num_digits_folders = int(np.ceil(np.log10(args.clients)))
