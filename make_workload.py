@@ -127,7 +127,6 @@ def main(args):
     max_duration = 0
 
     workflows = import_workflows('elastic/logs/workflows')
-    idle_time = max([len(x) for x in workflows.values()]) * 10
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
@@ -135,6 +134,9 @@ def main(args):
     load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, clip=(0.05, 1))
     between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
+
+    # compute mean idle time by taking mean time spent by workflows
+    idle_time = np.sum(np.array([len(x) for x in workflows.values()]) * 10 * request_type_rv.pmf())
 
     # generate workloads
     for step in trange(args.num_steps, desc='Generating workload'):
@@ -193,11 +195,11 @@ if __name__ == '__main__':
     cli.add_argument('--size_max', type=int, default=100)
     cli.add_argument('--sleep_lambda', type=float, default=10)
     cli.add_argument('--request_range', type=float, default=10)
-    cli.add_argument('--num_steps', type=int, default=50)
+    cli.add_argument('--num_steps', type=int, default=20)
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
-    cli.add_argument('--load_period', type=int, default=10)
+    cli.add_argument('--load_period', type=int, default=5)
     cli.add_argument('--load_jitter', type=float, default=0.25)
 
     args = cli.parse_args()

@@ -51,8 +51,12 @@ class ExponRV(RandomVar):
 class RequestType(RandomVar):
     def __init__(self, a, n) -> None:
         # loc=-1 to 0 index it
-        rv = zipfian(a, n, loc=-1)
+        rv = zipfian(a=a, n=n, loc=-1)
         super().__init__(rv)
+        self.n = n
+    
+    def pmf(self):
+        return self.rv.pmf(np.arange(self.n))
 
 
 class RequestSize(RandomVar):
