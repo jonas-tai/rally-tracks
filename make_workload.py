@@ -185,7 +185,7 @@ def main(args):
 
         max_duration = max(current_duration, max_duration)
 
-    with open(Path(out_folder, 'args.json'), 'w') as f:
+    with open(Path(args.out_folder, 'args.json'), 'w') as f:
         f.write(json.dumps(vars(args), indent=2))
 
     glog.info(f'Max duration of workload: {max_duration:.2f}s ({max_duration / 60:.2f} min)')
