@@ -78,9 +78,12 @@ class RequestSize(RandomVar):
 
     def draw(self):
         if self.probs is not None:
-            idx = np.random.choice(self.categories, p=self.probs)
-            self.add_to_history(idx)
-            return idx
+            if len(self.probs) > 0:
+                idx = np.random.choice(self.categories, p=self.probs)
+                self.add_to_history(idx)
+                return idx
+            else:
+                return 0
         else:
             return super().draw()
         # x = self.rv.rvs()

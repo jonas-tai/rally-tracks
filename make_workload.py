@@ -199,7 +199,7 @@ if __name__ == '__main__':
 
     cli.add_argument('--zipf', type=float, default=1.0)
     cli.add_argument('--pareto', type=float, default=0.6)
-    cli.add_argument('--size_max', type=int, default=100)
+    cli.add_argument('--size_max', type=int, default=1)
     cli.add_argument('--sleep_lambda', type=float, default=10)
     cli.add_argument('--request_range', type=float, default=10)
     cli.add_argument('--num_steps', type=int, default=40)
@@ -209,7 +209,7 @@ if __name__ == '__main__':
     cli.add_argument('--load_period', type=int, default=10)
     cli.add_argument('--load_jitter', type=float, default=0.25)
     cli.add_argument('--min_load', type=float, default=0.25)
-    cli.add_argument('--size_multiply',  action=BooleanOptionalAction, default=False)
+    cli.add_argument('--size_multiply',  action=BooleanOptionalAction, default=True)
 
     args = cli.parse_args()
     main(args)
