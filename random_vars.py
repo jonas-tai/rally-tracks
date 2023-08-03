@@ -33,7 +33,7 @@ class LoadLevel(RandomVar):
         iteration = len(self.draws)
         # clip it so we don't have too much load or too little (or negative)
         scale = np.clip(
-            np.sin(iteration * 2 * np.pi / self.period) + noise,
+            1/2 * np.sin(iteration * 2 * np.pi / self.period) + 1/2 + noise,
             self.clip[0],
             self.clip[1]
         )
