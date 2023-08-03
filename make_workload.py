@@ -1,5 +1,5 @@
 import numpy as np
-from argparse import ArgumentParser
+from argparse import ArgumentParser, BooleanOptionalAction
 from collections import defaultdict
 import json
 import glob
@@ -61,7 +61,7 @@ def generate_uuid():
     return str(uuid.uuid4())
 
 
-def copy_with_date_size(query, date_range, size):
+def copy_with_date_size(query, date_range, size, size_multiply=False):
     query = copy.deepcopy(query)
     query['id'] = generate_uuid()
     ranges = find_key(query, 'range')
@@ -89,7 +89,10 @@ def copy_with_date_size(query, date_range, size):
     bodies = find_key(query, 'body')
     for body in bodies:
         if 'size' in body:
-            body['size'] = int(size)
+            if size_multiply:
+                body['size'] = int(body['size'] * size)
+            else:
+                body['size'] = int(size)
     return query
 
 def fix_histogram(query):
@@ -130,7 +133,7 @@ def main(args):
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
-    request_size_rv = RequestSize(args.pareto, clip=(0, args.size_max))
+    request_size_rv = RequestSize(args.pareto, loc=0 if args.size_multiply else -1, clip=(0, args.size_max))
     load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, clip=(args.min_load, 1))
     between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
@@ -150,7 +153,7 @@ def main(args):
             request_size = request_size_rv.draw()
             request_range = request_range_rv.draw()
             # copy the entire workflow
-            requests_list = [copy_with_date_size(q, request_range, request_size) for q in workflows[ALL_WORKFLOWS[type_idx]]]
+            requests_list = [copy_with_date_size(q, request_range, request_size, size_multiply=args.size_multiply) for q in workflows[ALL_WORKFLOWS[type_idx]]]
             requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
 
             out[client] += requests_list
@@ -182,6 +185,9 @@ def main(args):
 
         max_duration = max(current_duration, max_duration)
 
+    with open(Path(out_folder, 'args.json'), 'w') as f:
+        f.write(json.dumps(vars(args), indent=2))
+
     glog.info(f'Max duration of workload: {max_duration:.2f}s ({max_duration / 60:.2f} min)')
     glog.info(f'Workload size: {sum(f.stat().st_size for f in Path(args.out_folder).glob("**/*") if f.is_file()) / 1024**2:.2f} MB')
     glog.info(f'Workload exported to {args.out_folder}')
@@ -203,6 +209,7 @@ if __name__ == '__main__':
     cli.add_argument('--load_period', type=int, default=10)
     cli.add_argument('--load_jitter', type=float, default=0.25)
     cli.add_argument('--min_load', type=float, default=0.25)
+    cli.add_argument('--size_multiply',  action=BooleanOptionalAction, default=False)
 
     args = cli.parse_args()
     main(args)

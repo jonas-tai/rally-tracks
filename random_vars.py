@@ -60,14 +60,14 @@ class RequestType(RandomVar):
 
 
 class RequestSize(RandomVar):
-    def __init__(self, b, clip=(0, None)) -> None:
-        pareto_rv = pareto(b, loc=-1, scale=1)
+    def __init__(self, b, loc, clip=(0, None)) -> None:
+        pareto_rv = pareto(b, loc=loc, scale=1)
         self.probs = None
         self.categories = None
         if clip[1] is not None:
-            self.categories = np.arange(clip[1])
+            self.categories = np.arange(loc + 1, clip[1])
             # add 1 since we diff later
-            cdfs = pareto_rv.cdf(np.arange(clip[1] + 1))
+            cdfs = pareto_rv.cdf(np.arange(loc + 1, clip[1] + 1))
             diffs = np.diff(cdfs)
             self.probs = diffs / diffs.sum()
             rv = None
