@@ -15,6 +15,7 @@ import os
 from tqdm.auto import trange, tqdm
 import glog
 import shutil
+import matplotlib.pyplot as plt
 
 ALL_WORKFLOWS = ["apache", "kafka", "nginx", "system/auth", "postgresql/overview", "discover/search",
                  "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
@@ -61,7 +62,7 @@ def generate_uuid():
     return str(uuid.uuid4())
 
 
-def copy_with_date_size(query, date_range, size, size_multiply=False):
+def copy_with_date_size(query, date_range, size):
     query = copy.deepcopy(query)
     query['id'] = generate_uuid()
     ranges = find_key(query, 'range')
@@ -89,10 +90,7 @@ def copy_with_date_size(query, date_range, size, size_multiply=False):
     bodies = find_key(query, 'body')
     for body in bodies:
         if 'size' in body:
-            if size_multiply:
-                body['size'] = int(body['size'] * size)
-            else:
-                body['size'] = int(size)
+            body['size'] = int(size)
     return query
 
 def fix_histogram(query):
@@ -133,7 +131,7 @@ def main(args):
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
-    request_size_rv = RequestSize(args.pareto, loc=0 if args.size_multiply else -1, clip=(0, args.size_max))
+    request_size_rv = RequestSize(args.pareto, loc=-1, clip=(0, args.size_max))
     load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, clip=(args.min_load, 1))
     between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
@@ -151,9 +149,10 @@ def main(args):
             # draw the request types and sizes
             type_idx = request_type_rv.draw()
             request_size = request_size_rv.draw()
+            request_size = np.clip(request_size * args.size_multiplier, args.size_min, args.size_max)
             request_range = request_range_rv.draw()
             # copy the entire workflow
-            requests_list = [copy_with_date_size(q, request_range, request_size, size_multiply=args.size_multiply) for q in workflows[ALL_WORKFLOWS[type_idx]]]
+            requests_list = [copy_with_date_size(q, request_range, request_size) for q in workflows[ALL_WORKFLOWS[type_idx]]]
             requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
 
             out[client] += requests_list
@@ -191,6 +190,9 @@ def main(args):
     glog.info(f'Max duration of workload: {max_duration:.2f}s ({max_duration / 60:.2f} min)')
     glog.info(f'Workload size: {sum(f.stat().st_size for f in Path(args.out_folder).glob("**/*") if f.is_file()) / 1024**2:.2f} MB')
     glog.info(f'Workload exported to {args.out_folder}')
+    plt.plot(np.arange(len(load_level_rv.draws)), np.array(load_level_rv.draws))
+    plt.ylim((0,None))
+    plt.savefig(Path(args.out_folder, 'load.png'))
 
 
 if __name__ == '__main__':
@@ -199,17 +201,18 @@ if __name__ == '__main__':
 
     cli.add_argument('--zipf', type=float, default=1.0)
     cli.add_argument('--pareto', type=float, default=0.6)
-    cli.add_argument('--size_max', type=int, default=1)
+    cli.add_argument('--size_min', type=int, default=0)
+    cli.add_argument('--size_max', type=int, default=250)
     cli.add_argument('--sleep_lambda', type=float, default=10)
     cli.add_argument('--request_range', type=float, default=10)
-    cli.add_argument('--num_steps', type=int, default=40)
+    cli.add_argument('--num_steps', type=int, default=33)
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
     cli.add_argument('--load_period', type=int, default=10)
     cli.add_argument('--load_jitter', type=float, default=0.25)
-    cli.add_argument('--min_load', type=float, default=0.25)
-    cli.add_argument('--size_multiply',  action=BooleanOptionalAction, default=True)
+    cli.add_argument('--min_load', type=float, default=0.75)
+    cli.add_argument('--size_multiplier', type=float, default=1)
 
     args = cli.parse_args()
     main(args)
