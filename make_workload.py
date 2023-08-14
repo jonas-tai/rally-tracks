@@ -62,7 +62,7 @@ def generate_uuid():
     return str(uuid.uuid4())
 
 
-def copy_with_date_size(query, date_range, size):
+def copy_with_date_size(query, date_range, size, size_max):
     query = copy.deepcopy(query)
     query['id'] = generate_uuid()
     ranges = find_key(query, 'range')
@@ -90,7 +90,10 @@ def copy_with_date_size(query, date_range, size):
     bodies = find_key(query, 'body')
     for body in bodies:
         if 'size' in body:
-            body['size'] = int(size)
+            if size is None:
+                body['size'] = int(min(body['size'], size_max))
+            else:
+                body['size'] = int(size)
     return query
 
 def fix_histogram(query):
@@ -148,11 +151,15 @@ def main(args):
         for client in range(num_clients):
             # draw the request types and sizes
             type_idx = request_type_rv.draw()
-            request_size = request_size_rv.draw()
-            request_size = np.clip(request_size * args.size_multiplier, args.size_min, args.size_max)
+            if args.draw_size:
+                request_size = request_size_rv.draw()
+                request_size = np.clip(request_size * args.size_multiplier, args.size_min, args.size_max)
+            else:
+                request_size = None
+            
             request_range = request_range_rv.draw()
             # copy the entire workflow
-            requests_list = [copy_with_date_size(q, request_range, request_size) for q in workflows[ALL_WORKFLOWS[type_idx]]]
+            requests_list = [copy_with_date_size(q, request_range, request_size, args.size_max) for q in workflows[ALL_WORKFLOWS[type_idx]]]
             requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
 
             out[client] += requests_list
@@ -213,6 +220,7 @@ if __name__ == '__main__':
     cli.add_argument('--load_jitter', type=float, default=0.25)
     cli.add_argument('--min_load', type=float, default=0.75)
     cli.add_argument('--size_multiplier', type=float, default=1)
+    cli.add_argument('--draw_size', type=BooleanOptionalAction, default=False)
 
     args = cli.parse_args()
     main(args)
