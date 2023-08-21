@@ -21,17 +21,19 @@ ALL_WORKFLOWS = ["apache", "kafka", "nginx", "system/auth", "postgresql/overview
                  "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
                  "postgresql/duration"]
 
+SLEEP_INNER = {
+                "name": "sleep",
+                "operation-type": "sleep",
+                "duration": 0
+            }
+
 SLEEP_TEMPLATE = {
     "id": "",
     "name": "Sleep",
     "requests": [
         {
           "stream": [
-            {
-                "name": "sleep",
-                "operation-type": "sleep",
-                "duration": 0
-            },
+              SLEEP_INNER
           ]
         }
     ]
@@ -121,6 +123,12 @@ def copy_sleep(duration):
     sleep_json['requests'][0]['stream'][0]['duration'] = duration
     return sleep_json
 
+def append_sleep_to_json(query, duration):
+    sleep_json = copy.deepcopy(SLEEP_INNER)
+    sleep_json['duration'] = duration
+    query['requests'].append(sleep_json)
+    return query
+
 
 def main(args):
     out = {i: [] for i in range(args.clients)}
@@ -160,13 +168,17 @@ def main(args):
             request_range = request_range_rv.draw()
             # copy the entire workflow
             requests_list = [copy_with_date_size(q, request_range, request_size, args.size_max) for q in workflows[ALL_WORKFLOWS[type_idx]]]
-            requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
+            append_sleep_to_json(requests_list[-1], between_workflow_sleep_rv.draw())
 
             out[client] += requests_list
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.clients):
-            out[sleeps].append(copy_sleep(idle_time))
+            try:
+                append_sleep_to_json(out[-1], idle_time)
+            except KeyError:
+                out[sleeps].append(copy_sleep(idle_time))
+
 
     # to determine how many zeros we need to pad the filenames
     num_digits_folders = int(np.ceil(np.log10(args.clients)))
@@ -186,6 +198,8 @@ def main(args):
 
             if query.get('name', '') == 'Sleep':
                 current_duration += query['requests'][0]['stream'][0]['duration']
+            elif query['requests'][-1].get('name') == 'sleep':
+                current_duration += query['requests'][-1]['duration']
             else:
                 current_duration += 4
 
@@ -210,7 +224,7 @@ if __name__ == '__main__':
     cli.add_argument('--pareto', type=float, default=0.6)
     cli.add_argument('--size_min', type=int, default=0)
     cli.add_argument('--size_max', type=int, default=250)
-    cli.add_argument('--sleep_lambda', type=float, default=10)
+    cli.add_argument('--sleep_lambda', type=float, default=6)
     cli.add_argument('--request_range', type=float, default=10)
     cli.add_argument('--num_steps', type=int, default=20)
     cli.add_argument('--clients', type=int, default=80)
