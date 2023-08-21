@@ -17,12 +17,13 @@ class RandomVar:
 
 
 class LoadLevel(RandomVar):
-    def __init__(self, period, clients, jitter=0, clip=(0, 1)) -> None:
+    def __init__(self, period, clients, jitter=0, mean_load=0.5, clip=(0, 1)) -> None:
         super().__init__(norm(scale=jitter))
         self.clip = clip
         self.jitter = jitter
         self.period = period
         self.clients = clients
+        self.mean_load = mean_load
 
     def draw(self):
         if self.jitter > 0:
@@ -33,11 +34,11 @@ class LoadLevel(RandomVar):
         iteration = len(self.draws)
         # clip it so we don't have too much load or too little (or negative)
         scale = np.clip(
-            1/2 * np.sin(iteration * 2 * np.pi / self.period) + 1/2 + noise,
+            (1-self.mean_load) * np.sin(iteration * 2 * np.pi / self.period) + self.mean_load + noise,
             self.clip[0],
             self.clip[1]
         )
-        out = int(np.round(self.clients * scale))
+        out = int(np.ceil(self.clients * scale))
         self.add_to_history(out)
         return out
 
