@@ -126,7 +126,13 @@ def copy_sleep(duration):
 def append_sleep_to_json(query, duration):
     sleep_json = copy.deepcopy(SLEEP_INNER)
     sleep_json['duration'] = duration
-    query['requests'].append(sleep_json)
+    requests_list = query['requests']
+
+    if 'stream' in requests_list[-1]:
+        requests_list[-1]['stream'].append(sleep_json)
+    else:
+        req = requests_list[-1]
+        requests_list[-1] = {'stream': [req, sleep_json]}
     return query
 
 
