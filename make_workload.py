@@ -188,6 +188,13 @@ def main(args):
     for k, requests_list in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
         out_folder = Path(args.out_folder, f'{k:0{num_digits_folders}}')
+        for query in requests_list:
+            if query.get('name', '') == 'Sleep':
+                current_duration += query['requests'][0]['stream'][0]['duration']
+            elif query['requests'][-1].get('name') == 'sleep':
+                current_duration += query['requests'][-1]['duration']
+            else:
+                current_duration += 4
         # sleep forever at end
         append_sleep_to_json(requests_list[-1], 600)
         try:
@@ -198,13 +205,6 @@ def main(args):
         for i, query in enumerate(requests_list):
             with open(out_folder.joinpath(f'{i:0{num_digits_workflows}}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
-
-            if query.get('name', '') == 'Sleep':
-                current_duration += query['requests'][0]['stream'][0]['duration']
-            elif query['requests'][-1].get('name') == 'sleep':
-                current_duration += query['requests'][-1]['duration']
-            else:
-                current_duration += 4
 
         max_duration = max(current_duration, max_duration)
 
