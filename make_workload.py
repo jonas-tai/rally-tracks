@@ -174,25 +174,28 @@ def main(args):
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.clients):
-            try:
-                append_sleep_to_json(out[-1], idle_time)
-            except KeyError:
+            if sleeps in out and len(out[sleeps]) > 0:
+                append_sleep_to_json(out[sleeps][-1], idle_time)
+            else:
                 out[sleeps].append(copy_sleep(idle_time))
+
 
 
     # to determine how many zeros we need to pad the filenames
     num_digits_folders = int(np.ceil(np.log10(args.clients)))
     num_digits_workflows = int(np.ceil(np.log10(max([len(x) for x in out.values()]))))
 
-    for k, v in tqdm(out.items(), desc='Writing workload'):
+    for k, requests_list in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
         out_folder = Path(args.out_folder, f'{k:0{num_digits_folders}}')
+        # sleep forever at end
+        append_sleep_to_json(requests_list[-1], 600)
         try:
             out_folder.mkdir(parents=True)
         except FileExistsError:
             for fname in glob.glob(str(out_folder.joinpath('*'))):
                 os.remove(fname)
-        for i, query in enumerate(v):
+        for i, query in enumerate(requests_list):
             with open(out_folder.joinpath(f'{i:0{num_digits_workflows}}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
 
