@@ -10,7 +10,8 @@
     },
     {
       "operation": {
-        "operation-type": "create-index"
+        "operation-type": "create-index",
+        "settings": {{index_settings | default({}) | tojson}}
       }
     },
     {
@@ -84,7 +85,8 @@
     {
       "operation": {
         "operation-type": "force-merge",
-        "max-num-segments": 1,
+        "mode" : "polling",
+        "max-num-segments": {{ max_num_segments | default(1) }},
         "request-timeout": 7200,
         "include-in-reporting": true
       }

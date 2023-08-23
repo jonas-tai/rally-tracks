@@ -1,5 +1,6 @@
 {% import "rally.helpers" as rally with context %}
-
+{# TODO By default, source_mode should be "synthetic" if index_mode == "time_series" else "stored" #}
+{% set p_source_mode = (source_mode | default("synthetic")) %}
 {
   "settings": {
     "index": {
@@ -8,6 +9,9 @@
       "mapping.total_fields.limit": 10000,
       "codec": "{{codec | default('default')}}",
       "mode": "{{index_mode | default('time_series')}}",
+      {% if refresh_interval %}
+      "refresh_interval": "{{refresh_interval}}",
+      {% endif %}
       {% if index_mode | default('time_series') is equalto 'time_series' %}
       "routing_path": [
         "metricset.name",
@@ -31,7 +35,7 @@
       "version": "7.6.2"
     },
     "_source": {
-      "mode": {{ source_mode | default("stored") | tojson }}
+      "mode": {{ p_source_mode | tojson }}
     },
     "dynamic_templates": [
       {
@@ -545,7 +549,7 @@
         "strings_as_keyword": {
           "match_mapping_type": "string",
           "mapping": {
-            "type": "keyword"{% if source_mode != "synthetic" %},"ignore_above": 1024{% endif %}
+            "type": "keyword"{% if p_source_mode != "synthetic" %},"ignore_above": 1024{% endif %}
           }
         }
       }

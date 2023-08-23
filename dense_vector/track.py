@@ -15,11 +15,12 @@ class KnnParamSource:
         self._cache = params.get("cache", False)
         self._exact_scan = params.get("exact", False)
         self._params = params
+        self._queries = []
 
         cwd = os.path.dirname(__file__)
         with open(os.path.join(cwd, "queries.json"), "r") as file:
-            lines = file.readlines()
-        self._queries = [json.loads(line) for line in lines]
+            for line in file:
+                self._queries.append(json.loads(line))
         self._iters = 0
         self.infinite = True
 
@@ -53,6 +54,8 @@ class KnnParamSource:
                 "_source": False,
             }
         self._iters += 1
+        if self._iters >= len(self._queries):
+            self._iters = 0
         return result
 
 
@@ -69,12 +72,14 @@ class KnnRecallParamSource:
         self._index_name = params.get("index", default_index)
         self._cache = params.get("cache", False)
         self._params = params
+        self._queries = []
+        self.infinite = True
 
         cwd = os.path.dirname(__file__)
         with open(os.path.join(cwd, "queries.json"), "r") as file:
-            lines = file.readlines()
-        self._queries = [json.loads(line) for line in lines]
-        self.infinite = True
+            # TODO take a random set of 20 queries instead
+            for line in file:
+                self._queries.append(json.loads(line))
 
     def partition(self, partition_index, total_partitions):
         return self

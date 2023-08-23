@@ -8,6 +8,7 @@
   }
 },
 {%- endif %}
+{%- if not lifecycle or lifecycle == "ilm" %}
 {
   "name": "insert-ilm",
   "tags": ["setup"],
@@ -16,6 +17,7 @@
     "param-source": "add-track-path"
   }
 },
+{%- endif %}
 {
   "name": "delete-all-datastreams",
   "tags": ["setup"],
@@ -106,7 +108,6 @@
     }
   }
 },
-
 {
   "name": "check-cluster-health",
   "operation": {
@@ -117,19 +118,5 @@
       "wait_for_no_relocating_shards": "true"
     },
     "retry-until-success": true
-  }
-},
-{
-  "name": "wait-until-merges-finish",
-  "tags": ["setup"],
-  "operation": {
-    "operation-type": "index-stats",
-    "index": "_all",
-    "condition": {
-      "path": "_all.total.merges.current",
-      "expected-value": 0
-    },
-    "retry-until-success": true,
-    "include-in-reporting": false
   }
 }
