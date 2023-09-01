@@ -48,6 +48,8 @@ def import_workflows(in_folder):
             with open(file, 'r') as f:
                 cur = json.load(f)
                 cur = fix_histogram(cur)
+                # cur = clean_request(cur)
+                # cur = fix_timeouts(cur)
                 workflows[workflow].append(cur)
     return workflows
 
@@ -62,6 +64,9 @@ def round_time(x):
 def generate_uuid():
     # return as str instead of UUID object for json serialization
     return str(uuid.uuid4())
+
+def generate_id(iter_num, orig_id, wf_id):
+    return f'{iter_num}.{wf_id} {orig_id}'
 
 
 def copy_with_date_size(query, date_range, size, size_max):
@@ -100,7 +105,7 @@ def copy_with_date_size(query, date_range, size, size_max):
 
 def fix_histogram(query):
     histograms = find_key(query, 'date_histogram')
-    min_hist_time = 86400
+    min_hist_time = 60 * 60 * 24
 
     for hist in histograms:
         if 'fixed_interval' in hist:
@@ -115,6 +120,13 @@ def fix_histogram(query):
                     time = min_hist_time / 60
                     hist['fixed_interval'] = f'{time}m'
     return query
+
+# def clean_request(query):
+#     query['requests'] = query['requests'][:1]
+#     return query
+
+# def fix_timeouts(query):
+#     return query
 
 
 def copy_sleep(duration):
@@ -174,16 +186,14 @@ def main(args):
             request_range = request_range_rv.draw()
             # copy the entire workflow
             requests_list = [copy_with_date_size(q, request_range, request_size, args.size_max) for q in workflows[ALL_WORKFLOWS[type_idx]]]
-            append_sleep_to_json(requests_list[-1], between_workflow_sleep_rv.draw())
+            # requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
+            # append_sleep_to_json(requests_list[-1], between_workflow_sleep_rv.draw())
 
             out[client] += requests_list
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.clients):
-            if sleeps in out and len(out[sleeps]) > 0:
-                append_sleep_to_json(out[sleeps][-1], idle_time)
-            else:
-                out[sleeps].append(copy_sleep(idle_time))
+            out[sleeps].append(copy_sleep(idle_time))
 
 
 
@@ -233,7 +243,7 @@ if __name__ == '__main__':
     cli.add_argument('--pareto', type=float, default=0.6)
     cli.add_argument('--size_min', type=int, default=0)
     cli.add_argument('--size_max', type=int, default=250)
-    cli.add_argument('--sleep_lambda', type=float, default=6)
+    cli.add_argument('--sleep_lambda', type=float, default=4)
     cli.add_argument('--request_range', type=float, default=10)
     cli.add_argument('--num_steps', type=int, default=20)
     cli.add_argument('--clients', type=int, default=80)
