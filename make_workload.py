@@ -40,9 +40,13 @@ SLEEP_TEMPLATE = {
 }
 
 
-def import_workflows(in_folder):
+def import_workflows(in_folder, num_workflows):
+    if num_workflows == 0:
+        workflow_list = ALL_WORKFLOWS
+    else:
+        workflow_list = ALL_WORKFLOWS[:num_workflows]
     workflows = defaultdict(lambda: [])
-    for workflow in ALL_WORKFLOWS:
+    for workflow in workflow_list:
         globs = glob.glob(str(Path(in_folder, workflow, '*.json')))
         for file in globs:
             with open(file, 'r') as f:
@@ -156,7 +160,7 @@ def main(args):
 
     max_duration = 0
 
-    workflows = import_workflows('elastic/logs/workflows')
+    workflows = import_workflows('elastic/logs/workflows', args.num_workflow_types)
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
@@ -255,6 +259,7 @@ if __name__ == '__main__':
     cli.add_argument('--size_multiplier', type=float, default=1)
     cli.add_argument('--draw_size', type=bool, default=True)
     cli.add_argument('--mean_load', type=float, default=0.8)
+    cli.add_argument('--num_workflow_types', type=int, default=0)
 
     args = cli.parse_args()
     main(args)
