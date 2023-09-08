@@ -17,9 +17,9 @@ import glog
 import shutil
 import matplotlib.pyplot as plt
 
-ALL_WORKFLOWS = ["apache", "kafka", "nginx", "system/auth", "postgresql/overview", "discover/search",
+ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "postgresql/overview", "discover/search",
                  "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
-                 "postgresql/duration"]
+                 "postgresql/duration", "nginx"]
 
 SLEEP_INNER = {
                 "name": "sleep",
