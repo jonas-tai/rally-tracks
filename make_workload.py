@@ -155,7 +155,7 @@ def append_sleep_to_json(query, duration):
 def main(args):
     out = {i: [] for i in range(args.clients)}
 
-    if os.path.exists(args.out_folder):
+    if os.path.exists(args.out_folder) and 'n' in args.mode:
         shutil.rmtree(args.out_folder)
 
     max_duration = 0
@@ -208,22 +208,32 @@ def main(args):
     for k, requests_list in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
         out_folder = Path(args.out_folder, f'{k:0{num_digits_folders}}')
-        for query in requests_list:
+        idx_max = None
+        for i, query in requests_list:
             if query.get('name', '') == 'Sleep':
                 current_duration += query['requests'][0]['stream'][0]['duration']
             elif query['requests'][-1].get('name') == 'sleep':
                 current_duration += query['requests'][-1]['duration']
             else:
                 current_duration += 4
+            # if we have a maximum workload time, set the maximum time here so that we stop writing later
+            if args.max_workload_time > 0 and current_duration > args.max_workload_time:
+                idx_max = i
+                break
         # sleep forever at end
-        append_sleep_to_json(requests_list[-1], 600)
+        if 'e' in args.mode:
+            append_sleep_to_json(requests_list[-1], 600)
         try:
             out_folder.mkdir(parents=True)
         except FileExistsError:
-            for fname in glob.glob(str(out_folder.joinpath('*'))):
-                os.remove(fname)
-        for i, query in enumerate(requests_list):
-            with open(out_folder.joinpath(f'{i:0{num_digits_workflows}}.json'), 'w') as f:
+            if 'n' in args.mode: 
+                for fname in glob.glob(str(out_folder.joinpath('*'))):
+                    os.remove(fname)
+        out_folder_offset = len(list(out_folder.glob('*')))
+
+        # only iterate to idx_max
+        for i, query in enumerate(requests_list[:idx_max]):
+            with open(out_folder.joinpath(f'{i + out_folder_offset:0{num_digits_workflows}}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
 
         max_duration = max(current_duration, max_duration)
@@ -260,6 +270,10 @@ if __name__ == '__main__':
     cli.add_argument('--draw_size', type=bool, default=True)
     cli.add_argument('--mean_load', type=float, default=0.8)
     cli.add_argument('--num_workflow_types', type=int, default=0)
+    cli.add_argument('--mode', type=str, default='e', help='Specify n for new workload,\
+                      e to end current workload, do not use either to chain workloads on top,\
+                      e.g., make first workload using n then make next ones without any parameter, then finish with e')
+    cli.add_argument('--max_workload_time', type=float, default=-1)
 
     args = cli.parse_args()
     main(args)
