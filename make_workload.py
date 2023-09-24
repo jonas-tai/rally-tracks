@@ -16,6 +16,47 @@ from tqdm.auto import trange, tqdm
 import glog
 import shutil
 import matplotlib.pyplot as plt
+from dataclasses import dataclass, field
+
+@dataclass
+class ClientRequestList:
+    requests: list[dict] = field(default_factory=list)
+    workflow_index: int | None = None
+    request_index: int = 0
+    request_size: float | None = None
+    request_range: float | None = None
+
+    def get_next(self, workflows: dict, request_type_rv: RequestType, request_size_rv: RequestSize | None, request_range_rv: ExponRV | None, size_max: int):
+        if self.request_size is None and request_size_rv is not None:
+            self.request_size = request_size_rv.draw()
+        if self.request_range is None and request_range_rv is not None:
+            self.request_range = request_range_rv.draw()
+        if self.workflow_index is None:
+            self.workflow_index = request_type_rv.draw()
+        
+        requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
+
+        if self.request_index >= len(requests_lists_for_workflow):
+            self.request_index = 0
+            self.workflow_index = request_type_rv.draw()
+            if request_range_rv is not None:
+                self.request_range = request_range_rv.draw()
+            if request_size_rv is not None:
+                self.request_size = request_size_rv.draw()
+            
+            requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
+
+        
+        new_request = requests_lists_for_workflow[self.request_index]
+        self.request_index += 1
+        self.requests.append(copy_with_date_size(new_request, self.request_range, self.request_size, size_max))
+
+    def append_sleep(self, t: float):
+        self.requests.append(copy_sleep(t))
+
+        
+
+BETWEEN_REQUEST_TIME = 4
 
 ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "postgresql/overview", "discover/search",
                  "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
@@ -153,7 +194,10 @@ def append_sleep_to_json(query, duration):
 
 
 def main(args):
-    out = {i: [] for i in range(args.clients)}
+    if args.target_clients is None:
+        args.target_clients = args.clients
+    
+    out = {i: ClientRequestList() for i in range(args.target_clients)}
 
     if os.path.exists(args.out_folder) and 'n' in args.mode:
         shutil.rmtree(args.out_folder)
@@ -166,50 +210,31 @@ def main(args):
     request_type_rv = RequestType(args.zipf, len(workflows))
     request_size_rv = RequestSize(args.pareto, loc=-1, clip=(0, args.size_max))
     load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, args.mean_load, clip=(args.min_load, 1))
-    between_workflow_sleep_rv = ExponRV(args.sleep_lambda)
     request_range_rv = ExponRV(args.request_range)
 
-    # compute mean idle time by taking mean time spent by workflows
-    # on average each request is 4 seconds apart then add 10 
-    idle_time = np.sum(np.array([len(x) for x in workflows.values()]) * 4 * request_type_rv.pmf())
-
     # generate workloads
-    for step in trange(args.num_steps, desc='Generating workload'):
+    for step in trange(0, args.max_workload_time, BETWEEN_REQUEST_TIME, desc='Generating workload'):
         # draw the amount of load for this time slice
         num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
-            # draw the request types and sizes
-            type_idx = request_type_rv.draw()
-            if args.draw_size:
-                request_size = request_size_rv.draw()
-                request_size = np.clip(request_size * args.size_multiplier, args.size_min, args.size_max)
-            else:
-                request_size = None
-            
-            request_range = request_range_rv.draw()
-            # copy the entire workflow
-            requests_list = [copy_with_date_size(q, request_range, request_size, args.size_max) for q in workflows[ALL_WORKFLOWS[type_idx]]]
-            # requests_list.append(copy_sleep(between_workflow_sleep_rv.draw()))
-            # append_sleep_to_json(requests_list[-1], between_workflow_sleep_rv.draw())
-
-            out[client] += requests_list
+            out[client].get_next(workflows, request_type_rv, request_size_rv, request_range_rv, args.size_max)
 
         # the clients that are not adding load will sleep until the next time slice
-        for sleeps in range(num_clients, args.clients):
-            out[sleeps].append(copy_sleep(idle_time))
+        for sleeps in range(num_clients, args.target_clients):
+            out[sleeps].append_sleep(BETWEEN_REQUEST_TIME)
 
 
 
     # to determine how many zeros we need to pad the filenames
     num_digits_folders = int(np.ceil(np.log10(args.clients)))
-    num_digits_workflows = int(np.ceil(np.log10(max([len(x) for x in out.values()]))))
+    num_digits_workflows = int(np.ceil(np.log10(max([len(x.requests) for x in out.values()]))))
 
-    for k, requests_list in tqdm(out.items(), desc='Writing workload'):
+    for k, client in tqdm(out.items(), desc='Writing workload'):
         current_duration = 0
         out_folder = Path(args.out_folder, f'{k:0{num_digits_folders}}')
         idx_max = None
-        for i, query in requests_list:
+        for i, query in enumerate(client.requests):
             if query.get('name', '') == 'Sleep':
                 current_duration += query['requests'][0]['stream'][0]['duration']
             elif query['requests'][-1].get('name') == 'sleep':
@@ -222,7 +247,7 @@ def main(args):
                 break
         # sleep forever at end
         if 'e' in args.mode:
-            append_sleep_to_json(requests_list[-1], 600)
+            append_sleep_to_json(client.requests[-1], 600)
         try:
             out_folder.mkdir(parents=True)
         except FileExistsError:
@@ -232,7 +257,7 @@ def main(args):
         out_folder_offset = len(list(out_folder.glob('*')))
 
         # only iterate to idx_max
-        for i, query in enumerate(requests_list[:idx_max]):
+        for i, query in enumerate(client.requests[:idx_max]):
             with open(out_folder.joinpath(f'{i + out_folder_offset:0{num_digits_workflows}}.json'), 'w') as f:
                 f.write(json.dumps(query, indent=2))
 
@@ -259,7 +284,6 @@ if __name__ == '__main__':
     cli.add_argument('--size_max', type=int, default=250)
     cli.add_argument('--sleep_lambda', type=float, default=4)
     cli.add_argument('--request_range', type=float, default=10)
-    cli.add_argument('--num_steps', type=int, default=20)
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
@@ -273,7 +297,8 @@ if __name__ == '__main__':
     cli.add_argument('--mode', type=str, default='e', help='Specify n for new workload,\
                       e to end current workload, do not use either to chain workloads on top,\
                       e.g., make first workload using n then make next ones without any parameter, then finish with e')
-    cli.add_argument('--max_workload_time', type=float, default=-1)
+    cli.add_argument('--max_workload_time', type=float, default=600)
+    cli.add_argument('--target_clients', type=int, default=None)
 
     args = cli.parse_args()
     main(args)
