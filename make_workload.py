@@ -208,7 +208,10 @@ def main(args):
     np.random.seed(args.seed)
 
     request_type_rv = RequestType(args.zipf, len(workflows))
-    request_size_rv = RequestSize(args.pareto, loc=-1, clip=(0, args.size_max))
+    if args.draw_size:
+        request_size_rv = RequestSize(args.pareto, loc=-1, clip=(0, args.size_max))
+    else:
+        request_size_rv = None
     load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, args.mean_load, clip=(args.min_load, 1))
     request_range_rv = ExponRV(args.request_range)
 
@@ -297,7 +300,7 @@ if __name__ == '__main__':
     cli.add_argument('--mode', type=str, default='e', help='Specify n for new workload,\
                       e to end current workload, do not use either to chain workloads on top,\
                       e.g., make first workload using n then make next ones without any parameter, then finish with e')
-    cli.add_argument('--max_workload_time', type=float, default=600)
+    cli.add_argument('--max_workload_time', type=int, default=600)
     cli.add_argument('--target_clients', type=int, default=None)
 
     args = cli.parse_args()
