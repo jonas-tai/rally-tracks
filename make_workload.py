@@ -230,7 +230,7 @@ def main(args):
 
 
     # to determine how many zeros we need to pad the filenames
-    num_digits_folders = int(np.ceil(np.log10(args.clients)))
+    num_digits_folders = int(np.ceil(np.log10(args.target_clients)))
     num_digits_workflows = int(np.ceil(np.log10(max([len(x.requests) for x in out.values()]))))
 
     for k, client in tqdm(out.items(), desc='Writing workload'):
