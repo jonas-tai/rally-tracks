@@ -145,7 +145,7 @@ def copy_with_date_size(query, date_range, size, size_max):
             if size is None:
                 body['size'] = int(min(body['size'], size_max))
             else:
-                body['size'] = int(size)
+                body['size'] = int(size) if size != 0 else 0
     return query
 
 def fix_histogram(query):
