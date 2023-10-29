@@ -18,6 +18,7 @@ import shutil
 import matplotlib.pyplot as plt
 from dataclasses import dataclass, field
 
+
 @dataclass
 class ClientRequestList:
     requests: list[dict] = field(default_factory=list)
@@ -26,14 +27,14 @@ class ClientRequestList:
     request_size: float | None = None
     request_range: float | None = None
 
-    def get_next(self, workflows: dict, request_type_rv: RequestType, request_size_rv: RequestSize | None, request_range_rv: ExponRV | None, size_max: int):
+    def get_next(self, workflows: dict, request_type_rv: RequestType, request_size_rv: RequestSize | None, request_range_rv: ExponRV | None, size_max: int, draw_size_zero: bool):
         if self.request_size is None and request_size_rv is not None:
             self.request_size = request_size_rv.draw()
         if self.request_range is None and request_range_rv is not None:
             self.request_range = request_range_rv.draw()
         if self.workflow_index is None:
             self.workflow_index = request_type_rv.draw()
-        
+
         requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
 
         if self.request_index >= len(requests_lists_for_workflow):
@@ -43,18 +44,17 @@ class ClientRequestList:
                 self.request_range = request_range_rv.draw()
             if request_size_rv is not None:
                 self.request_size = request_size_rv.draw()
-            
+
             requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
 
-        
         new_request = requests_lists_for_workflow[self.request_index]
         self.request_index += 1
-        self.requests.append(copy_with_date_size(new_request, self.request_range, self.request_size, size_max))
+        self.requests.append(copy_with_date_size(new_request, self.request_range,
+                             self.request_size, size_max, draw_size_zero))
 
     def append_sleep(self, t: float):
         self.requests.append(copy_sleep(t))
 
-        
 
 BETWEEN_REQUEST_TIME = 4
 
@@ -63,10 +63,10 @@ ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "postgresql/overview", "disco
                  "postgresql/duration", "nginx"]
 
 SLEEP_INNER = {
-                "name": "sleep",
-                "operation-type": "sleep",
-                "duration": 0
-            }
+    "name": "sleep",
+    "operation-type": "sleep",
+    "duration": 0
+}
 
 SLEEP_TEMPLATE = {
     "id": "",
@@ -110,11 +110,12 @@ def generate_uuid():
     # return as str instead of UUID object for json serialization
     return str(uuid.uuid4())
 
+
 def generate_id(iter_num, orig_id, wf_id):
     return f'{iter_num}.{wf_id} {orig_id}'
 
 
-def copy_with_date_size(query, date_range, size, size_max):
+def copy_with_date_size(query, date_range, size, size_max, draw_size_zero):
     query = copy.deepcopy(query)
     query['id'] = generate_uuid()
     ranges = find_key(query, 'range')
@@ -144,9 +145,12 @@ def copy_with_date_size(query, date_range, size, size_max):
         if 'size' in body:
             if size is None:
                 body['size'] = int(min(body['size'], size_max))
+            elif draw_size_zero and body['size'] == 0:
+                body['size'] = int(min(size, size_max))
             else:
                 body['size'] = int(min(size, body['size'], size_max))
     return query
+
 
 def fix_histogram(query):
     histograms = find_key(query, 'date_histogram')
@@ -180,6 +184,7 @@ def copy_sleep(duration):
     sleep_json['requests'][0]['stream'][0]['duration'] = duration
     return sleep_json
 
+
 def append_sleep_to_json(query, duration):
     sleep_json = copy.deepcopy(SLEEP_INNER)
     sleep_json['duration'] = duration
@@ -196,7 +201,7 @@ def append_sleep_to_json(query, duration):
 def main(args):
     if args.target_clients is None:
         args.target_clients = args.clients
-    
+
     out = {i: ClientRequestList() for i in range(args.target_clients)}
 
     if os.path.exists(args.out_folder) and 'n' in args.mode:
@@ -221,13 +226,11 @@ def main(args):
         num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
-            out[client].get_next(workflows, request_type_rv, request_size_rv, request_range_rv, args.size_max)
+            out[client].get_next(workflows, request_type_rv, request_size_rv, request_range_rv, args.size_max, args.draw_size_zero)
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.target_clients):
             out[sleeps].append_sleep(BETWEEN_REQUEST_TIME)
-
-
 
     # to determine how many zeros we need to pad the filenames
     num_digits_folders = int(np.ceil(np.log10(args.target_clients)))
@@ -254,7 +257,7 @@ def main(args):
         try:
             out_folder.mkdir(parents=True)
         except FileExistsError:
-            if 'n' in args.mode: 
+            if 'n' in args.mode:
                 for fname in glob.glob(str(out_folder.joinpath('*'))):
                     os.remove(fname)
         out_folder_offset = len(list(out_folder.glob('*')))
@@ -270,10 +273,11 @@ def main(args):
         f.write(json.dumps(vars(args), indent=2))
 
     glog.info(f'Max duration of workload: {max_duration:.2f}s ({max_duration / 60:.2f} min)')
-    glog.info(f'Workload size: {sum(f.stat().st_size for f in Path(args.out_folder).glob("**/*") if f.is_file()) / 1024**2:.2f} MB')
+    glog.info(
+        f'Workload size: {sum(f.stat().st_size for f in Path(args.out_folder).glob("**/*") if f.is_file()) / 1024**2:.2f} MB')
     glog.info(f'Workload exported to {args.out_folder}')
     plt.plot(np.arange(len(load_level_rv.draws)), np.array(load_level_rv.draws))
-    plt.ylim((0,None))
+    plt.ylim((0, None))
     plt.savefig(Path(args.out_folder, 'load.png'))
 
 
@@ -302,6 +306,7 @@ if __name__ == '__main__':
                       e.g., make first workload using n then make next ones without any parameter, then finish with e')
     cli.add_argument('--max_workload_time', type=int, default=600)
     cli.add_argument('--target_clients', type=int, default=None)
+    cli.add_argument('--draw_size_zero', action='store_true', default=False)
 
     args = cli.parse_args()
     main(args)
