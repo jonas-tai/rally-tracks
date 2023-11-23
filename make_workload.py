@@ -58,8 +58,7 @@ class ClientRequestList:
 
 BETWEEN_REQUEST_TIME = 4
 
-ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "postgresql/overview", "discover/search",
-                 "discover/visualize", "system/syslog/dashboard", "system/syslog/lens", "mysql/dashboard", "mysql/lens",
+ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "postgresql/overview", "mysql/dashboard", "mysql/lens",
                  "postgresql/duration", "nginx"]
 
 SLEEP_INNER = {
