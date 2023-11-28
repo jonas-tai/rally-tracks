@@ -7,7 +7,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.1",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -105,7 +105,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.2",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -186,7 +186,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.3",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -279,7 +279,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.4",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -372,7 +372,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.5",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
@@ -452,7 +452,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - apache - 3c.6",
           "operation-type": "search",
-          "index": "logs-apache*",
+          "index": "logs-apache.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",

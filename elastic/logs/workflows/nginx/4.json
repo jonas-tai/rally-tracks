@@ -9,7 +9,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.1",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -150,7 +150,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.2",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -349,7 +349,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.3",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -490,7 +490,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.4",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -614,7 +614,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.5",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -717,7 +717,7 @@
             {
               "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.6",
               "operation-type": "search",
-              "index": "logs-nginx*",
+              "index": "logs-nginx.access*",
               "request-params": {
                 "batched_reduce_size": "64",
                 "ignore_unavailable": "true",
@@ -822,7 +822,7 @@
         {
           "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 4.7",
           "operation-type": "search",
-          "index": "logs-nginx*",
+          "index": "logs-nginx.access*",
           "request-params": {
             "batched_reduce_size": "64",
             "ignore_unavailable": "true",
