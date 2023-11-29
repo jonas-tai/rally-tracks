@@ -5,7 +5,7 @@
     {
       "name": "Elasticsearch: POST /logs-*/_search - syslog/lens - 2b.1",
       "operation-type": "search",
-      "index": null,
+      "index": "logs-system.syslog-*",
       "request-params": {},
       "body": {
         "size": 500,

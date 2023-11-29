@@ -5,7 +5,7 @@
     {
       "name": "Elasticsearch: POST /logs-*/_search - redis - 6.1",
       "operation-type": "search",
-      "index": null,
+      "index": "logs-redis*",
       "request-params": {},
       "body": {
         "size": 500,
