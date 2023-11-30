@@ -80,7 +80,12 @@ SLEEP_TEMPLATE = {
 }
 
 
+def get_indices(item):
+    return find_key(item, 'index')
+
+
 def import_workflows(in_folder, num_workflows):
+    all_indices = set()
     if num_workflows == 0:
         workflow_list = ALL_WORKFLOWS
     else:
@@ -95,6 +100,8 @@ def import_workflows(in_folder, num_workflows):
                 # cur = clean_request(cur)
                 # cur = fix_timeouts(cur)
                 workflows[workflow].append(cur)
+                all_indices.update(get_indices(cur))
+    glog.info(f"Indices to be used: {all_indices}")
     return workflows
 
 
@@ -153,7 +160,8 @@ def copy_with_date_size(query, date_range, size, size_max, draw_size_zero):
 
 def fix_histogram(query):
     histograms = find_key(query, 'date_histogram')
-    min_hist_time = 60 * 60 * 24
+    # round to nearest 48h
+    min_hist_time = 60 * 60 * 48
 
     for hist in histograms:
         if 'fixed_interval' in hist:
@@ -225,7 +233,8 @@ def main(args):
         num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
-            out[client].get_next(workflows, request_type_rv, request_size_rv, request_range_rv, args.size_max, args.draw_size_zero)
+            out[client].get_next(workflows, request_type_rv, request_size_rv,
+                                 request_range_rv, args.size_max, args.draw_size_zero)
 
         # the clients that are not adding load will sleep until the next time slice
         for sleeps in range(num_clients, args.target_clients):

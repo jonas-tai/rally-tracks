@@ -50,8 +50,8 @@ class TimestampStructGenerator:
 def random_duration_for_max(average_duration: int, min_seconds: int, max_seconds: int) -> Optional[int]:
     if average_duration:
         result = int(random.expovariate(1 / average_duration.total_seconds()))
-        # round up to the nearest hour
-        result = int(math.ceil(result / 3600.0)) * 3600
+        # round up to the nearest 5 minutes
+        result = int(math.ceil(result / 300.0)) * 300
         # enforce minimum delta for realistic workloads
         if result >= min_seconds:
             if result < max_seconds:
