@@ -267,8 +267,13 @@ class WorkflowSelectorParamSource:
             duration = None
             query_handler_interval = query_handler.get_time_interval()
             if query_handler_interval and self.max_query_duration:
+                draw = random_duration_for_max(
+                    self._avg_query_duration,
+                    self._min_query_duration,
+                    self.max_possible_duration,
+                )
                 duration = ceil(
-                    self.max_query_duration * (query_handler_interval.total_seconds() / self._max_time_interval.total_seconds())
+                    draw * (query_handler_interval.total_seconds() / self._max_time_interval.total_seconds())
                 )
                 if duration < self._min_query_duration:
                     duration = self._min_query_duration
