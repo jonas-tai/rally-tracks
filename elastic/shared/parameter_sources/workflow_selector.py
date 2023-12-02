@@ -272,9 +272,11 @@ class WorkflowSelectorParamSource:
                     self._min_query_duration,
                     self.max_possible_duration,
                 )
+                
                 duration = ceil(
                     draw * (query_handler_interval.total_seconds() / self._max_time_interval.total_seconds())
                 )
+                #self.logger.info("Request drawing [%s]", duration)
                 if duration < self._min_query_duration:
                     duration = self._min_query_duration
                 duration = timedelta(seconds=duration)
