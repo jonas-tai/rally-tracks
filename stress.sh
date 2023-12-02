@@ -10,7 +10,12 @@ done
 
 STEP_SIZE=$((TIME + SLEEP))
 
+# for ((i = 0; i < ${LIMIT}; i += STEP_SIZE)); do
+#     stress -c ${CPU} -t ${TIME} -m ${MEMORY} -i ${MEMORY} -d ${MEMORY}
+#     sleep ${SLEEP}s
+# done
+
 for ((i = 0; i < ${LIMIT}; i += STEP_SIZE)); do
-    stress -c ${CPU} -t ${TIME} -m ${MEMORY} -i ${MEMORY} -d ${MEMORY}
+    stress-ng --matrix ${CPU} -t ${TIME}
     sleep ${SLEEP}s
 done
