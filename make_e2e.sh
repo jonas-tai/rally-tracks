@@ -3,14 +3,17 @@ set -e
 TOTAL_CLIENTS_HIGH_LOAD=7
 TOTAL_CLIENTS_MED_HIGH_LOAD=7
 TOTAL_CLIENTS_MED_LOAD=6
-OUT_FOLDER="elastic/logs/workflows/custom/end_to_end_alternating"
+OUT_FOLDER="elastic/logs/workflows/custom/"
 
 MICROBENCHMARK_TIME=900
 
-HIGH_LOAD="--draw_size True --zipf 1 --clients ${TOTAL_CLIENTS_HIGH_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --size_multiplier 1 --draw_size_zero"
-HIGH_EVICT="--draw_size True --zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --pareto 0.4 --size_max 25 --request_range 30  --load_period 10 --min_load 1 --size_multiplier 1 --draw_size_zero"
-HIGH_CACHE="--draw_size True --zipf 2 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --pareto 0.6 --size_max 1 --request_range 30  --load_period 10 --min_load 1 --size_multiplier 1 --draw_size_zero"
-STRESSED_NODES="--draw_size True --zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --size_multiplier 1 --draw_size_zero"
+
+SIMPLIFIED_LONG_SHORT="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --load_period 10 --min_load 1"
+
+HIGH_LOAD="--type_zipf 1 --clients ${TOTAL_CLIENTS_HIGH_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --draw_size_zero"
+HIGH_EVICT="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.4 --size_max 25 --request_range 30  --load_period 10 --min_load 1 --draw_size_zero"
+HIGH_CACHE="--type_zipf 2 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.6 --size_max 1 --request_range 30  --load_period 10 --min_load 1 --draw_size_zero"
+STRESSED_NODES="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --draw_size_zero"
 
 SEED="1"
 OUT_PATH="elastic/logs/workflows/custom/microbenchmarks"

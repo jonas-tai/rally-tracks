@@ -17,7 +17,7 @@ class RandomVar:
 
 
 class LoadLevel(RandomVar):
-    def __init__(self, period, clients, step_size, jitter=0, mean_load=0.5, clip=(0, 1)) -> None:
+    def __init__(self, period, clients, step_size, jitter=0, mean_load=0.5, clip=(0, 1), static_load_level=True) -> None:
         super().__init__(norm(scale=jitter))
         self.clip = clip
         self.jitter = jitter
@@ -25,8 +25,11 @@ class LoadLevel(RandomVar):
         self.clients = clients
         self.mean_load = mean_load
         self.step_size = step_size
+        self.static_load_level = True
 
     def draw(self):
+        if self.static_load_level:
+            return self.clients
         if self.jitter > 0:
             noise = self.rv.rvs()
         else:
@@ -50,7 +53,7 @@ class ExponRV(RandomVar):
         super().__init__(rv)
 
 
-class RequestType(RandomVar):
+class ZipfianRV(RandomVar):
     def __init__(self, a, n) -> None:
         # loc=-1 to 0 index it
         rv = zipfian(a=a, n=n, loc=-1)
@@ -60,6 +63,16 @@ class RequestType(RandomVar):
     def pmf(self):
         return self.rv.pmf(np.arange(self.n))
 
+class MultiNominalRV(RandomVar):
+    def __init__(self, probs) -> None:
+        rv = multinomial(1, probs)
+        super().__init__(rv)
+        
+    def draw(self):
+        drawn_values = self.rv.rvs()
+        x = np.argmax(drawn_values)
+        super().add_to_history(x)
+        return x
 
 class RequestSize(RandomVar):
     def __init__(self, b, loc, clip=(0, None)) -> None:

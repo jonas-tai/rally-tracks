@@ -5,7 +5,7 @@ import json
 import glob
 from pathlib import Path
 from custom_workflows import find_key
-from random_vars import LoadLevel, ExponRV, RequestSize, RequestType
+from random_vars import LoadLevel, ExponRV, RequestSize, ZipfianRV, MultiNominalRV
 import copy
 import datetime
 from dateutil import parser
@@ -33,6 +33,7 @@ class ClientRequestList:
         if self.request_range is None and request_range_rv is not None:
             self.request_range = request_range_rv.draw()
         if self.workflow_index is None:
+            # TODO: is this covered by setting np.random to the correct seed?
             self.workflow_index = request_type_rv.draw()
 
         requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
@@ -49,7 +50,7 @@ class ClientRequestList:
 
         new_request = requests_lists_for_workflow[self.request_index]
         self.request_index += 1
-        self.requests.append(copy_with_date_size(new_request, self.request_range,
+        self.requests.append(copy_with_modified_data(new_request, self.request_range,
                              self.request_size, size_max, draw_size_zero))
 
     def append_sleep(self, t: float):
@@ -58,6 +59,7 @@ class ClientRequestList:
 
 BETWEEN_REQUEST_TIME = 4
 
+# TODO: Make it possible to only choose some requests from a workflow
 ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "mysql/dashboard", "mysql/lens",
                  "nginx"]
 
@@ -84,12 +86,9 @@ def get_indices(item):
     return find_key(item, 'index')
 
 
-def import_workflows(in_folder, num_workflows):
+def import_workflows(in_folder, workflow_list):
     all_indices = set()
-    if num_workflows == 0:
-        workflow_list = ALL_WORKFLOWS
-    else:
-        workflow_list = ALL_WORKFLOWS[:num_workflows]
+
     workflows = defaultdict(lambda: [])
     for workflow in workflow_list:
         globs = glob.glob(str(Path(in_folder, workflow, '*.json')))
@@ -120,10 +119,17 @@ def generate_uuid():
 def generate_id(iter_num, orig_id, wf_id):
     return f'{iter_num}.{wf_id} {orig_id}'
 
-
-def copy_with_date_size(query, date_range, size, size_max, draw_size_zero):
+def copy_with_modified_data(query, date_range, size, size_max, draw_size_zero):
     query = copy.deepcopy(query)
     query['id'] = generate_uuid()
+    if date_range is not None:
+        set_date_range(query, date_range)
+    
+    if size is not None:
+        set_query_size(query, size, size_max, draw_size_zero)
+    return query
+
+def set_date_range(query, date_range):
     ranges = find_key(query, 'range')
     for ts in ranges:
         if '@timestamp' in ts:
@@ -146,6 +152,7 @@ def copy_with_date_size(query, date_range, size, size_max, draw_size_zero):
             ts['@timestamp']['gte'] = new_start_fmt
             ts['@timestamp']['lte'] = new_end_fmt
 
+def set_query_size(query, size, size_max, draw_size_zero):
     bodies = find_key(query, 'body')
     for body in bodies:
         if 'size' in body:
@@ -155,7 +162,6 @@ def copy_with_date_size(query, date_range, size, size_max, draw_size_zero):
                 body['size'] = int(min(size, size_max))
             else:
                 body['size'] = int(min(size, body['size'], size_max))
-    return query
 
 
 def fix_histogram(query):
@@ -176,13 +182,6 @@ def fix_histogram(query):
                     time = min_hist_time / 60
                     hist['fixed_interval'] = f'{time}m'
     return query
-
-# def clean_request(query):
-#     query['requests'] = query['requests'][:1]
-#     return query
-
-# def fix_timeouts(query):
-#     return query
 
 
 def copy_sleep(duration):
@@ -216,16 +215,24 @@ def main(args):
 
     max_duration = 0
 
-    workflows = import_workflows('elastic/logs/workflows', args.num_workflow_types)
+    workflows = import_workflows('elastic/logs/workflows', args.workflow_list)
     np.random.seed(args.seed)
-
-    request_type_rv = RequestType(args.zipf, len(workflows))
-    if args.draw_size:
-        request_size_rv = RequestSize(args.pareto, loc=-1, clip=(0, args.size_max))
+    
+    if args.type_zipf:
+        request_type_rv = ZipfianRV(args.type_zipf, len(workflows))
     else:
-        request_size_rv = None
-    load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, args.mean_load, clip=(args.min_load, 1))
-    request_range_rv = ExponRV(args.request_range)
+        request_type_rv = MultiNominalRV(args.type_multi_nominal)
+    
+    request_size_rv = None
+    if args.size_pareto:
+        request_size_rv = RequestSize(args.size_pareto, loc=-1, clip=(0, args.size_max))
+        
+    # TODO: Fix step_size param
+    load_level_rv = LoadLevel(args.load_period, args.clients, args.load_jitter, args.mean_load, clip=(args.min_load, 1), static_load_level=args.static_load_level)
+    
+    request_range_rv = None
+    if args.request_range is not None:
+        request_range_rv = ExponRV(args.request_range)
 
     # generate workloads
     for step in trange(0, args.max_workload_time, BETWEEN_REQUEST_TIME, desc='Generating workload'):
@@ -277,6 +284,7 @@ def main(args):
 
         max_duration = max(current_duration, max_duration)
 
+    # Export arg settings
     with open(Path(args.out_folder, 'args.json'), 'w') as f:
         f.write(json.dumps(vars(args), indent=2))
 
@@ -289,26 +297,36 @@ def main(args):
     plt.savefig(Path(args.out_folder, 'load.png'))
 
 
+def validate_args(args):
+    if any([workflow not in ALL_WORKFLOWS for workflow in args.workflow_list]):
+        raise Exception(f'Invalid workflow, the list of allowed workflows is {ALL_WORKFLOWS}')
+
 if __name__ == '__main__':
 
     cli = ArgumentParser()
 
-    cli.add_argument('--zipf', type=float, default=1.0)
-    cli.add_argument('--pareto', type=float, default=0.6)
-    cli.add_argument('--size_min', type=int, default=0)
+    # Distribution and parameters for the drawing of request types
+    request_type_dist = cli.add_mutually_exclusive_group()
+    request_type_dist.add_argument('--type_zipf', type=float) # default = 1.0
+    request_type_dist.add_argument('--type_multi_nominal', nargs='+',type=float)
+    
+    cli.add_argument('--size_pareto', type=float, help="Request size distribution parameter. If not set, request size is not augmented (static).") # default=0.6
     cli.add_argument('--size_max', type=int, default=250)
-    cli.add_argument('--sleep_lambda', type=float, default=4)
-    cli.add_argument('--request_range', type=float, default=10)
+    cli.add_argument('--request_range', type=float) # default=10
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
-    cli.add_argument('--load_period', type=int, default=10)
-    cli.add_argument('--load_jitter', type=float, default=0.0)
-    cli.add_argument('--min_load', type=float, default=0.75)
-    cli.add_argument('--size_multiplier', type=float, default=1)
-    cli.add_argument('--draw_size', type=bool, default=True)
-    cli.add_argument('--mean_load', type=float, default=0.8)
-    cli.add_argument('--num_workflow_types', type=int, default=0)
+    
+    # TODO: Rename load_level
+    load_level = cli.add_argument_group()
+    load_level.add_argument('--load_period', type=int, default=10)
+    load_level.add_argument('--load_jitter', type=float, default=0.0)
+    load_level.add_argument('--min_load', type=float, default=0.75)
+    load_level.add_argument('--mean_load', type=float, default=0.8)
+    load_level.add_argument('--static_load_level', type=bool)
+    
+    cli.add_argument('--workflow_list', nargs='+', type=str, default=ALL_WORKFLOWS)
+    
     cli.add_argument('--mode', type=str, default='e', help='Specify n for new workload,\
                       e to end current workload, do not use either to chain workloads on top,\
                       e.g., make first workload using n then make next ones without any parameter, then finish with e')
@@ -317,4 +335,5 @@ if __name__ == '__main__':
     cli.add_argument('--draw_size_zero', action='store_true', default=False)
 
     args = cli.parse_args()
+    validate_args(args)
     main(args)
