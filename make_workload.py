@@ -49,8 +49,8 @@ class ClientRequestList:
 
             requests_lists_for_workflow = workflows[workflow_list[self.workflow_index]]
 
-        new_request = requests_lists_for_workflow[self.request_index] % len(requests_lists_for_workflow)
-        self.request_index = (self.request_index + 1) % 1
+        new_request = requests_lists_for_workflow[self.request_index]
+        self.request_index = (self.request_index + 1)  % len(requests_lists_for_workflow)
         self.requests.append(copy_with_modified_data(new_request, self.request_range,
                              self.request_size, size_max, draw_size_zero))
 
