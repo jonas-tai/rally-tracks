@@ -1,3 +1,4 @@
+from typing import List
 import numpy as np
 from argparse import ArgumentParser, BooleanOptionalAction
 from collections import defaultdict
@@ -27,7 +28,7 @@ class ClientRequestList:
     request_size: float | None = None
     request_range: float | None = None
 
-    def get_next(self, workflows: dict, request_type_rv: RequestType, request_size_rv: RequestSize | None, request_range_rv: ExponRV | None, size_max: int, draw_size_zero: bool):
+    def get_next(self, workflows: dict, workflow_list : List[str], request_type_rv: MultiNominalRV | ZipfianRV, request_size_rv: RequestSize | None, request_range_rv: ExponRV | None, size_max: int, draw_size_zero: bool):
         if self.request_size is None and request_size_rv is not None:
             self.request_size = request_size_rv.draw()
         if self.request_range is None and request_range_rv is not None:
@@ -36,7 +37,7 @@ class ClientRequestList:
             # TODO: is this covered by setting np.random to the correct seed?
             self.workflow_index = request_type_rv.draw()
 
-        requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
+        requests_lists_for_workflow = workflows[workflow_list[self.workflow_index]]
 
         if self.request_index >= len(requests_lists_for_workflow):
             self.request_index = 0
@@ -46,10 +47,10 @@ class ClientRequestList:
             if request_size_rv is not None:
                 self.request_size = request_size_rv.draw()
 
-            requests_lists_for_workflow = workflows[ALL_WORKFLOWS[self.workflow_index]]
+            requests_lists_for_workflow = workflows[workflow_list[self.workflow_index]]
 
-        new_request = requests_lists_for_workflow[self.request_index]
-        self.request_index += 1
+        new_request = requests_lists_for_workflow[self.request_index] % len(requests_lists_for_workflow)
+        self.request_index = (self.request_index + 1) % 1
         self.requests.append(copy_with_modified_data(new_request, self.request_range,
                              self.request_size, size_max, draw_size_zero))
 
@@ -242,7 +243,7 @@ def main(args):
         num_clients = load_level_rv.draw()
         assert num_clients <= args.clients
         for client in range(num_clients):
-            out[client].get_next(workflows, request_type_rv, request_size_rv,
+            out[client].get_next(workflows, args.workflow_list, request_type_rv, request_size_rv,
                                  request_range_rv, args.size_max, args.draw_size_zero)
 
         # the clients that are not adding load will sleep until the next time slice
