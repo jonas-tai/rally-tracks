@@ -8,7 +8,7 @@ OUT_FOLDER="elastic/logs/workflows/custom/"
 MICROBENCHMARK_TIME=900
 
 
-SIMPLIFIED_LONG_SHORT="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --load_period 10 --min_load 1"
+SIMPLIFIED_LONG_SHORT="--type_multi_nominal 0.8 0.2 --workflow_list kafka_single nginx_single --clients ${TOTAL_CLIENTS_HIGH_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --static_load_level"
 
 HIGH_LOAD="--type_zipf 1 --clients ${TOTAL_CLIENTS_HIGH_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --draw_size_zero"
 HIGH_EVICT="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.4 --size_max 25 --request_range 30  --load_period 10 --min_load 1 --draw_size_zero"
@@ -21,6 +21,9 @@ python make_workload.py ${HIGH_LOAD} --out_folder ${OUT_PATH}/high_load --mode '
 python make_workload.py ${HIGH_CACHE} --out_folder ${OUT_PATH}/high_cache --mode 'n' --max_workload_time ${MICROBENCHMARK_TIME} --seed ${SEED}
 python make_workload.py ${HIGH_EVICT} --out_folder ${OUT_PATH}/high_evict --mode 'n' --max_workload_time ${MICROBENCHMARK_TIME} --seed ${SEED}
 python make_workload.py ${STRESSED_NODES} --out_folder ${OUT_PATH}/stressed_nodes --mode 'n' --max_workload_time ${MICROBENCHMARK_TIME} --seed ${SEED}
+python make_workload.py ${SIMPLIFIED_LONG_SHORT} --out_folder ${OUT_PATH}/simplified_long_short --mode 'n' --max_workload_time ${MICROBENCHMARK_TIME} --seed ${SEED}
+
+
 
 OUT_PATH="${OUT_FOLDER}/1"
 SEED="1"

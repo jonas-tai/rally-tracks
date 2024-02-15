@@ -59,9 +59,11 @@ class ClientRequestList:
 
 BETWEEN_REQUEST_TIME = 4
 
-# TODO: Make it possible to only choose some requests from a workflow
-ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "mysql/dashboard", "mysql/lens",
+DEFAULT_WORKFLOWS = ["apache", "kafka", "system/auth", "mysql/dashboard", "mysql/lens",
                  "nginx"]
+
+ALL_WORKFLOWS = ["apache", "kafka", "system/auth", "mysql/dashboard", "mysql/lens",
+                 "nginx", "kafka_single", "nginx_single"]
 
 SLEEP_INNER = {
     "name": "sleep",
@@ -308,11 +310,13 @@ if __name__ == '__main__':
     # Distribution and parameters for the drawing of request types
     request_type_dist = cli.add_mutually_exclusive_group()
     request_type_dist.add_argument('--type_zipf', type=float) # default = 1.0
-    request_type_dist.add_argument('--type_multi_nominal', nargs='+',type=float)
+    request_type_dist.add_argument('--type_multi_nominal', nargs='*',type=float)
     
     cli.add_argument('--size_pareto', type=float, help="Request size distribution parameter. If not set, request size is not augmented (static).") # default=0.6
     cli.add_argument('--size_max', type=int, default=250)
     cli.add_argument('--request_range', type=float) # default=10
+
+    # TODO: CLient vs target clients?
     cli.add_argument('--clients', type=int, default=80)
     cli.add_argument('--out_folder', type=str, default='elastic/logs/workflows/custom/out')
     cli.add_argument('--seed', type=int, default=0)
@@ -325,7 +329,7 @@ if __name__ == '__main__':
     load_level.add_argument('--mean_load', type=float, default=0.8)
     load_level.add_argument('--static_load_level', type=bool)
     
-    cli.add_argument('--workflow_list', nargs='+', type=str, default=ALL_WORKFLOWS)
+    cli.add_argument('--workflow_list', nargs='*', type=str, default=DEFAULT_WORKFLOWS)
     
     cli.add_argument('--mode', type=str, default='e', help='Specify n for new workload,\
                       e to end current workload, do not use either to chain workloads on top,\
