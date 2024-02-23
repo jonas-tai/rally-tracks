@@ -17,7 +17,7 @@
                 "enable_fields_emulation": "true"
               },
               "body": {
-                "size": 0,
+                "size": 5000,
                 "query": {
                   "bool": {
                     "must": [
@@ -25,7 +25,7 @@
                         "range": {
                           "@timestamp": {
                             "gte": "2022-04-19T18:52:16.168Z",
-                            "lte": "2022-04-20T19:07:16.168Z",
+                            "lte": "2022-04-28T19:07:16.168Z",
                             "format": "strict_date_optional_time"
                           }
                         }
