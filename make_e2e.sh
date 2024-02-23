@@ -1,7 +1,7 @@
 set -e
 
 TOTAL_CLIENTS_HIGH_LOAD=7
-TOTAL_CLIENTS_MED_HIGH_LOAD=7
+iTOTAL_CLIENTS_MED_HIGH_LOAD=7
 TOTAL_CLIENTS_MED_LOAD=6
 OUT_FOLDER="elastic/logs/workflows/custom/"
 
@@ -15,7 +15,7 @@ HIGH_EVICT="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients $
 HIGH_CACHE="--type_zipf 2 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.6 --size_max 1 --request_range 30  --load_period 10 --min_load 1 --draw_size_zero"
 STRESSED_NODES="--type_zipf 1 --clients ${TOTAL_CLIENTS_MED_LOAD} --target_clients ${TOTAL_CLIENTS_HIGH_LOAD} --size_pareto 0.63 --size_max 5 --request_range 20 --load_period 10 --min_load 1 --draw_size_zero"
 
-SEED="1"
+SEED="42"
 OUT_PATH="elastic/logs/workflows/custom/microbenchmarks"
 python make_workload.py ${SIMPLIFIED_LONG_SHORT} --out_folder ${OUT_PATH}/simplified_long_short --mode 'n' --max_workload_time ${MICROBENCHMARK_TIME} --seed ${SEED}
 exit 1
