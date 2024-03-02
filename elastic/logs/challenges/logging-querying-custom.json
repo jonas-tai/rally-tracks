@@ -1,6 +1,6 @@
 {% import "rally.helpers" as rally %}
 {
-  "name": "logging-querying",
+  "name": "logging-querying-custom",
   "description": "Applies a query workload.",
   "parameters": {},
   "schedule": [
