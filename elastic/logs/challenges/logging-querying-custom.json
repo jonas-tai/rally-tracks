@@ -1,0 +1,32 @@
+{% import "rally.helpers" as rally %}
+{
+  "name": "logging-querying",
+  "description": "Applies a query workload.",
+  "parameters": {},
+  "schedule": [
+    {
+      "name": "logging-queries-custom",
+      "parallel": {
+        "time-period": {{ p_query_time_period }},
+        "warmup-time-period": {{ p_query_warmup_time_period }},
+        "tasks": [
+          {% for workflow in p_query_workflows %}
+            {
+              "name": {{workflow | tojson }},
+              "operation": {
+                "operation-type": "composite",
+                "param-source": "workflow-selector",
+                "workflow": {{workflow | tojson }},
+                "task-offset": {{ loop.index }},
+                "request-params": {{ p_query_request_params | tojson(indent=2) }}
+              },
+              "target-throughput": 10,
+              "clients": {{ p_query_clients_list[loop.index0] if  p_query_clients_list|count == p_query_workflows|count else p_query_clients}},
+              "schedule": "deterministic"
+            }{{ ", " if not loop.last else "" }}
+          {% endfor %}
+        ]
+      }
+    }
+  ]
+}
