@@ -20,9 +20,9 @@
                 "task-offset": {{ loop.index }},
                 "request-params": {{ p_query_request_params | tojson(indent=2) }}
               },
-              "target-throughput": 10,
+              "target-throughput": 20,
               "clients": {{ p_query_clients_list[loop.index0] if  p_query_clients_list|count == p_query_workflows|count else p_query_clients}},
-              "schedule": "deterministic"
+              "schedule": "poisson"
             }{{ ", " if not loop.last else "" }}
           {% endfor %}
         ]
