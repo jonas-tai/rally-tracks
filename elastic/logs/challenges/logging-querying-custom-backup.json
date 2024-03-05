@@ -1,11 +1,11 @@
 {% import "rally.helpers" as rally %}
 {
-  "name": "logging-querying-custom",
+  "name": "logging-querying-custom-backup",
   "description": "Applies a query workload.",
   "parameters": {},
   "schedule": [
     {
-      "name": "logging-queries-custom",
+      "name": "logging-querying-custom-backup",
       "parallel": {
         "time-period": {{ p_query_time_period }},
         "warmup-time-period": {{ p_query_warmup_time_period }},
