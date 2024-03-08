@@ -30,7 +30,7 @@
                   "2": {
                     "date_histogram": {
                       "field": "@timestamp",
-                      "fixed_interval": "30s",
+                      "fixed_interval": "1h",
                       "time_zone": "UTC",
                       "min_doc_count": 1
                     },
@@ -108,8 +108,8 @@
                     {
                       "range": {
                         "@timestamp": {
-                          "gte": "2022-04-19T18:52:16.168Z",
-                          "lte": "2022-04-28T19:07:16.168Z",
+                          "gte": "2022-03-19T18:52:16.168Z",
+                          "lte": "2022-05-28T19:07:16.168Z",
                           "format": "strict_date_optional_time"
                         }
                       }
@@ -153,7 +153,7 @@
                           "min": 1650480736168,
                           "max": 1650481636168
                         },
-                        "fixed_interval": "120s"
+                        "fixed_interval": "2d"
                       },
                       "aggs": {
                         "61ca57f2-469d-11e7-af02-69e470af7417": {
