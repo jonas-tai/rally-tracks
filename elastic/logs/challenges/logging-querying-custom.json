@@ -11,7 +11,7 @@
         "warmup-time-period": {{ p_query_warmup_time_period }},
         "tasks": [
           { 
-            "target-throughput": 180,
+            "target-throughput": 200,
             "clients": 35,
             "operation": {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 1a.1",
@@ -41,13 +41,13 @@
                           "order": {
                             "_count": "desc"
                           },
-                          "size": 100
+                          "size": 200
                         }
                       }
                     }
                   }
                 },
-                "size": 100,
+                "size": 200,
                 "script_fields": {},
                 "stored_fields": [
                   "*"
@@ -74,7 +74,7 @@
                           "@timestamp": {
                             "format": "strict_date_optional_time",
                             "gte": "2022-01-10T21:35:59.264Z",
-                            "lte": "2022-04-28T21:50:59.264Z"
+                            "lte": "2022-05-28T21:50:59.264Z"
                           }
                         }
                       }
