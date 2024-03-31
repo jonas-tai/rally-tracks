@@ -11,7 +11,7 @@
         "warmup-time-period": {{ p_query_warmup_time_period }},
         "tasks": [
           { 
-            "target-throughput": 200,
+            "target-throughput": 170,
             "clients": 35,
             "operation": {
               "name": "Elasticsearch: POST /logs-*/_async_search - kafka - 1a.1",
@@ -87,7 +87,7 @@
             }
         },
           {
-            "target-throughput": 60,
+            "target-throughput": 50,
             "clients": 20,
             "operation": {
             "name": "Elasticsearch: POST /logs-*/_async_search - nginx - 1.1",
